@@ -17,7 +17,6 @@ export default class Header extends React.Component {
   render() {
     const items = [
       { label: 'Icon home', url: '' },
-      { label: 'Calendar', url: 'calendar' },
       { label: 'Accounts', url: 'accounts' }
     ];
     return <div styleName="container">{items.map(this.item)}</div>;

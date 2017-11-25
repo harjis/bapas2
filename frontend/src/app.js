@@ -1,7 +1,9 @@
 import React from 'react';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from './components/header/header';
+import Accounts from './components/accounts/accounts';
+import Workspace from './components/workspace/workspace';
 
 export default class App extends React.Component {
   render() {
@@ -10,9 +12,10 @@ export default class App extends React.Component {
         <div>
           <Header />
 
-          <Route exact path="" />
-          <Route path="calendar" />
-          <Route path="accounts" />
+          <Switch>
+            <Route exact path="/" component={Workspace} />
+            <Route path="/accounts" component={Accounts} />
+          </Switch>
         </div>
       </Router>
     );
