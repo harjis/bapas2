@@ -6,8 +6,10 @@ import './header.css';
 export default class Header extends React.Component {
   item({ label, url }) {
     return (
-      <Link key={url} to={url}>
-        <div styleName="item">{label}</div>
+      <Link key={url}to={url}>
+        <div styleName="item">
+          {label}
+        </div>
       </Link>
     );
   }

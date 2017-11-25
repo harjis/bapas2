@@ -1,8 +1,18 @@
 .container {
   display: flex;
-  background: #9b42f4;
+  background-color: rgba(155, 66, 244, .8);
+}
+
+.container a {
+  color: white;
+  text-decoration: none;
 }
 
 .item {
-  margin: 8px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.item:hover {
+  background-color: rgba(155, 66, 244, 1);
 }
