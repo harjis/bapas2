@@ -43,19 +43,27 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader?importLoader=1&modules&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
-        ]
-      },
-      {
         test: /\.(png|svg|jpg|gif)$/,
         use: ['file-loader']
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: ['file-loader']
+      },
+      {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+              localIdentName: '[name]__[local]__[hash:base64:5]'
+            }
+          }
+        ],
+        exclude: /node_modules/
       }
     ]
   }
