@@ -17,6 +17,11 @@ mutation {
         text: "This is a draft..."
         isPublished: false
       }]
+    },
+    accounts: {
+      create: [
+        { name: "Nordea", iban: "FI42 1312 3500 1075 08" }
+      ]
     }
   }) {
     id

@@ -1,6 +1,7 @@
 # import Post from "./generated/prisma.graphql"
 
 type Query {
+  accounts: [Account!]!
   feed: [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post!
