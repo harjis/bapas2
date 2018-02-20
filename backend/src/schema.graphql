@@ -10,6 +10,7 @@ type Query {
 }
 
 type Mutation {
+  createAccount(name: String!, iban: String!): Account!
   signup(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
   createDraft(title: String!, text: String!): Post!
