@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import styles from './header.css';
+import styles from './header.module.css';
 
 export default class Header extends React.Component {
   item({ label, url }) {
@@ -13,7 +13,11 @@ export default class Header extends React.Component {
   }
 
   render() {
-    const items = [{ label: 'Icon home', url: '' }, { label: 'Accounts', url: 'accounts' }];
+    const items = [
+      { label: 'Icon home', url: '' },
+      { label: 'Accounts', url: 'accounts' },
+      { label: 'Register', url: 'register' }
+    ];
     return <div className={styles.container}>{items.map(this.item)}</div>;
   }
 }

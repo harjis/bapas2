@@ -53,6 +53,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        use: [{ loader: 'postcss-loader' }],
+        exclude: [/node_modules/, /module\.css$/, /config\.css$/]
+      },
+      {
+        test: /module\.css$/,
         use: [
           { loader: 'style-loader' },
           {
@@ -62,7 +67,8 @@ module.exports = {
               modules: true,
               localIdentName: '[name]__[local]__[hash:base64:5]'
             }
-          }
+          },
+          { loader: 'postcss-loader' },
         ],
         exclude: /node_modules/
       }
