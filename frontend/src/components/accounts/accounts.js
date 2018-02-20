@@ -8,16 +8,17 @@ const Accounts = props => {
   return (
     <div>
       <div>Accounts</div>
-      <div>{props.data.feed.map(post => post.text)}</div>
+      <div>{props.data.accounts.map(account => account.name)}</div>
     </div>
   );
 };
 
 export default graphql(gql`
-  query AllPosts {
-    feed {
+  query AllAccounts {
+    accounts {
       id
-      text
+      name
+      iban
     }
   }
 `)(Accounts);
