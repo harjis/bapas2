@@ -4,6 +4,9 @@ export const Query = {
   accounts(parent, args, ctx: Context, info) {
     return ctx.db.query.accounts({})
   },
+  users(parent, args, ctx: Context, info) {
+    return ctx.db.query.users({})
+  },
   feed(parent, args, ctx: Context, info) {
     return ctx.db.query.posts({ where: { isPublished: true } }, info)
   },

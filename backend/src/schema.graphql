@@ -2,6 +2,7 @@
 
 type Query {
   accounts: [Account!]!
+  users: [User!]!
   feed: [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post!
