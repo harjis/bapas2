@@ -1,1 +1,17 @@
+@import 'config/styles/variables.css';
 
+.container {
+  background-color: var(--mainColor);
+  line-height: var(--lineHeight);
+  padding: 0 var(--gutterSm);
+  cursor: pointer;
+  color: var(--white);
+}
+
+.container:hover {
+  background-color: var(--mainColorDark);
+}
+
+.container:active {
+  background-color: var(--mainColorDarkest);
+}

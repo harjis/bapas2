@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import Button from 'components/generic/button/button';
+import Button from 'src/components/generic/button/button';
 
 import styles from './register.module.css';
 
@@ -17,9 +17,20 @@ const Register = props => (
     </div>
 
     <div className={styles.row}>
-      <Button>Submit</Button>
+      <Button onClick={props.onClick}>Submit</Button>
     </div>
   </div>
 );
+
+class RegisterContainer extends React.Component {
+  state = {
+    email: '',
+    name: '',
+  };
+
+  render(){
+    return <Register />
+  }
+}
 
 export default Register;

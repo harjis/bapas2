@@ -1,6 +1,8 @@
+@import 'config/styles/variables.css';
+
 .container {
   display: flex;
-  background-color: rgba(155, 66, 244, .8);
+  background-color: var(--mainColor);
 }
 
 .container a {
@@ -14,5 +16,5 @@
 }
 
 .item:hover {
-  background-color: rgba(155, 66, 244, 1);
+  background-color: var(--mainColorDark);
 }
