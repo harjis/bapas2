@@ -13,6 +13,10 @@ module.exports = {
     app: path.join(paths.SRC, 'index.js')
   },
   resolve: {
+    modules: [
+      path.resolve(__dirname ,'src'),
+      path.resolve('./node_modules')
+    ],
     extensions: ['.js', '.jsx']
   },
   devtool: 'inline-source-map',
