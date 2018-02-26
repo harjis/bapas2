@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Button from 'src/components/generic/button/button';
+import { USER_ID, USER_TOKEN } from 'src/constants/user_constants';
 
 import styles from './register.module.css';
 
@@ -49,12 +50,19 @@ class RegisterContainer extends React.Component {
         variables: { email, name, password }
       })
       .then(response => {
-        console.log(response);
+        const id = response.data.signup.user.id;
+        const token = response.data.signup.token;
+        this.saveUser(id, token);
       })
       .catch(error => {
         console.log(error);
       });
   };
+
+  saveUser(id, token) {
+    localStorage.setItem(USER_ID, id);
+    localStorage.setItem(USER_TOKEN, token);
+  }
 
   render() {
     return (
@@ -74,8 +82,6 @@ const CREATE_USER_MUTATION = gql`
       token
       user {
         id
-        name
-        email
       }
     }
   }
