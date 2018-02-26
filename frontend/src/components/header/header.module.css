@@ -3,6 +3,11 @@
 .container {
   display: flex;
   background-color: var(--mainColor);
+  justify-content: space-between;
+}
+
+.leftContainer {
+  display: flex;
 }
 
 .container a {

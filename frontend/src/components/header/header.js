@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 
 import styles from './header.module.css';
 
+const leftItems = [{ label: 'Icon home', url: '' }, { label: 'Accounts', url: 'accounts' }];
+const rightItems = [{ label: 'Register', url: 'register' }];
+
 export default class Header extends React.Component {
   item({ label, url }) {
     return (
@@ -13,11 +16,11 @@ export default class Header extends React.Component {
   }
 
   render() {
-    const items = [
-      { label: 'Icon home', url: '' },
-      { label: 'Accounts', url: 'accounts' },
-      { label: 'Register', url: 'register' }
-    ];
-    return <div className={styles.container}>{items.map(this.item)}</div>;
+    return (
+      <div className={styles.container}>
+        <div className={styles.leftContainer}>{leftItems.map(this.item)}</div>
+        <div>{rightItems.map(this.item)}</div>
+      </div>
+    );
   }
 }
