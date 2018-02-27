@@ -6,11 +6,11 @@
   justify-content: space-between;
 }
 
-.leftContainer {
+.leftItems {
   display: flex;
 }
 
-.rightContainer {
+.rightItems {
   display: flex;
 }
 

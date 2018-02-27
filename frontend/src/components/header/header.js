@@ -25,14 +25,12 @@ class Header extends React.Component {
   };
 
   render() {
-    console.log(this.props.client);
-    console.log(localStorage);
     const userId = localStorage.getItem(USER_ID);
     return (
       <div className={styles.container}>
-        <div className={styles.leftContainer}>{leftItems.map(this.item)}</div>
+        <div className={styles.leftItems}>{leftItems.map(this.item)}</div>
         {!userId ? (
-          <div className={styles.rightContainer}>{rightItems.map(this.item)}</div>
+          <div className={styles.rightItems}>{rightItems.map(this.item)}</div>
         ) : (
           <a onClick={this.logout}>
             <div className={styles.item}>Logout</div>

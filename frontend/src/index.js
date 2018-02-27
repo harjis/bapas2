@@ -15,6 +15,7 @@ const client = new ApolloClient({
 
 import Accounts from './components/accounts/accounts';
 import Header from './components/header/header';
+import Login from './components/login/login';
 import RegisterContainer from './components/register/register';
 import Workspace from './components/workspace/workspace';
 
@@ -27,6 +28,7 @@ ReactDOM.render(
           <Route exact path="/" component={Workspace} />
           <Route path="/accounts" component={Accounts} />
           <Route path="/register" component={RegisterContainer} />
+          <Route path="/login" component={Login} />
         </Switch>
       </div>
     </Router>
