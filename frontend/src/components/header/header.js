@@ -32,9 +32,9 @@ class Header extends React.Component {
         {!userId ? (
           <div className={styles.rightItems}>{rightItems.map(this.item)}</div>
         ) : (
-          <a onClick={this.logout}>
+          <Link onClick={this.logout} key={'logout'} to={'/'}>
             <div className={styles.item}>Logout</div>
-          </a>
+          </Link>
         )}
       </div>
     );
