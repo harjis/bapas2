@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -23,6 +24,12 @@ const Login = props => (
     </div>
   </div>
 );
+
+Login.propTypes = {
+  onChangeEmail: PropTypes.func.isRequired,
+  onChangePassword: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
+};
 
 class LoginContainer extends React.Component {
   state = {
@@ -65,6 +72,11 @@ class LoginContainer extends React.Component {
     );
   }
 }
+
+LoginContainer.propTypes = {
+  history: PropTypes.object.isRequired,
+  mutate: PropTypes.func.isRequired
+};
 
 const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
