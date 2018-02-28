@@ -8,4 +8,7 @@
   --mainColorDark: rgba(155, 66, 244, 1);
   --mainColorDarkest: rgba(155, 66, 244, 1);
   --white: white;
+
+  --danger: rgba(244, 135, 126, 1);
+  --borderRadius: 3px;
 }

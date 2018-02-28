@@ -1,0 +1,7 @@
+@import 'config/styles/variables.css';
+
+.container {
+  border-radius: var(--borderRadius);
+  padding: var(--gutter);
+  background-color: var(--danger);
+}
