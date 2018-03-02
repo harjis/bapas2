@@ -1,11 +1,10 @@
 import * as React from 'react';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { graphql } from 'react-apollo/index';
 
+import Errors, { ErrorsHOC } from 'src/components/generic/errors/errors';
 import Login from './login';
-import { addErrors } from 'src/actions/error_actions';
 import { USER_ID, USER_TOKEN } from 'src/constants/user_constants';
 
 class LoginContainer extends React.Component {
@@ -39,16 +38,20 @@ class LoginContainer extends React.Component {
 
   render() {
     return (
-      <Login
-        onChangeEmail={this.handleChangeEmail}
-        onChangePassword={this.handleChangePassword}
-        onSubmit={this.handleLogin}
-      />
+      <React.Fragment>
+        <Errors errors={this.props.errors} />
+        <Login
+          onChangeEmail={this.handleChangeEmail}
+          onChangePassword={this.handleChangePassword}
+          onSubmit={this.handleLogin}
+        />
+      </React.Fragment>
     );
   }
 }
 
 LoginContainer.propTypes = {
+  errors: PropTypes.array.isRequired,
   history: PropTypes.object.isRequired,
   mutate: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired
@@ -65,13 +68,6 @@ const LOGIN_USER = gql`
   }
 `;
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onError: errors => {
-      dispatch(addErrors(errors));
-    }
-  };
-};
 
 const _LoginContainer = graphql(LOGIN_USER)(LoginContainer);
-export default connect(null, mapDispatchToProps)(_LoginContainer);
+export default ErrorsHOC(_LoginContainer);

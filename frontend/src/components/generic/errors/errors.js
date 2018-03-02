@@ -13,4 +13,20 @@ Errors.propTypes = {
   errors: PropTypes.array.isRequired
 };
 
+export function ErrorsHOC(WrappedComponent) {
+  return class extends React.Component {
+    state = {
+      errors: []
+    };
+
+    handleOnError = errors => this.setState({ errors });
+
+    render() {
+      return (
+        <WrappedComponent {...this.props} errors={this.state.errors} onError={this.handleOnError} />
+      );
+    }
+  };
+}
+
 export default Errors;
