@@ -1,32 +1,42 @@
 import * as React from 'react';
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import PropsTypes from 'prop-types';
+import { compose } from 'recompose';
+import { graphql } from 'react-apollo';
 
 import Button from 'src/components/generic/button/button';
 import { USER_ID, USER_TOKEN } from 'src/constants/user_constants';
 
 import styles from './register.module.css';
+import Errors, { ErrorsHOC } from 'src/components/generic/errors/errors';
 
 const Register = props => (
   <div className={styles.container}>
     <div>Register</div>
     <div className={styles.row}>
       <div>Name:</div>
-      <input onChange={props.onSetName} />
+      <input onChange={props.onChangeName} />
     </div>
     <div className={styles.row}>
       <div>Email:</div>
-      <input onChange={props.onSetEmail} />
+      <input onChange={props.onChangeEmail} />
     </div>
     <div className={styles.row}>
       <div>Password:</div>
-      <input type="password" onChange={props.onSetPassword} />
+      <input type="password" onChange={props.onChangePassword} />
     </div>
     <div className={styles.row}>
       <Button onClick={props.onSubmit}>Submit</Button>
     </div>
   </div>
 );
+
+Register.propTypes = {
+  onChangeName: PropsTypes.func.isRequired,
+  onChangeEmail: PropsTypes.func.isRequired,
+  onChangePassword: PropsTypes.func.isRequired,
+  onSubmit: PropsTypes.func.isRequired
+};
 
 class RegisterContainer extends React.Component {
   state = {
@@ -39,11 +49,6 @@ class RegisterContainer extends React.Component {
   handleSetEmail = event => this.setState({ email: event.target.value });
   handleSetPassword = event => this.setState({ password: event.target.value });
   handleSubmit = () => {
-    if (this.state.email.length === 0 || this.state.name.length === 0) {
-      // handle error
-      return;
-    }
-
     const { email, name, password } = this.state;
     this.props
       .mutate({
@@ -55,7 +60,7 @@ class RegisterContainer extends React.Component {
         this.saveUser(id, token);
       })
       .catch(error => {
-        console.log(error);
+        this.props.onError([{ message: error.message }]);
       });
   };
 
@@ -66,15 +71,23 @@ class RegisterContainer extends React.Component {
 
   render() {
     return (
-      <Register
-        onSetEmail={this.handleSetEmail}
-        onSetName={this.handleSetName}
-        onSetPassword={this.handleSetPassword}
-        onSubmit={this.handleSubmit}
-      />
+      <React.Fragment>
+        <Errors errors={this.props.errors} />
+        <Register
+          onChangeEmail={this.handleSetEmail}
+          onChangeName={this.handleSetName}
+          onChangePassword={this.handleSetPassword}
+          onSubmit={this.handleSubmit}
+        />
+      </React.Fragment>
     );
   }
 }
+
+RegisterContainer.propTypes = {
+  errors: PropsTypes.array.isRequired,
+  onError: PropsTypes.func.isRequired
+};
 
 const CREATE_USER_MUTATION = gql`
   mutation signup($email: String!, $name: String!, $password: String!) {
@@ -87,4 +100,4 @@ const CREATE_USER_MUTATION = gql`
   }
 `;
 
-export default graphql(CREATE_USER_MUTATION)(RegisterContainer);
+export default compose(graphql(CREATE_USER_MUTATION), ErrorsHOC)(RegisterContainer);

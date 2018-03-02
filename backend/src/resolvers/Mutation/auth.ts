@@ -4,6 +4,9 @@ import { Context } from '../../utils'
 
 export const auth = {
   async signup(parent, args, ctx: Context, info) {
+    if (args.name.length === 0 || args.email.length === 0 || args.password.length === 0){
+      throw new Error('Name, email and password can not be empty string');
+    }
     const password = await bcrypt.hash(args.password, 10)
     const user = await ctx.db.mutation.createUser({
       data: { ...args, password },
