@@ -9,12 +9,14 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { Provider } from 'react-redux';
 
 import Accounts from './components/accounts/accounts';
-import ErrorBandContainer from 'src/components/generic/error_band/error_band_container';
+import ErrorBandContainer from 'src/components/generic/errors/errors_container';
 import Header from './components/header/header';
 import LoginContainer from './components/login/login_container';
 import RegisterContainer from './components/register/register';
 import Workspace from './components/workspace/workspace';
 import rootReducer from 'src/reducers';
+
+import './index.module.css';
 
 const httpLink = new HttpLink({ uri: 'http://localhost:4000' });
 
