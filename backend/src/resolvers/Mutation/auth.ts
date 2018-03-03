@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken'
 import { Context } from '../../utils'
 
 export const auth = {
-  async signup(parent, args, ctx: Context, info) {
+  async createUser(parent, args, ctx: Context, info) {
     if (args.name.length === 0 || args.email.length === 0 || args.password.length === 0) {
       throw new Error('Name, email and password can not be empty string');
     }
@@ -36,4 +36,13 @@ export const auth = {
       user,
     }
   },
+
+  async deleteUser(parent, { id }, ctx: Context, info) {
+    const userExists = await ctx.db.exists.User({ id })
+    if (!userExists) {
+      throw new Error('User not found')
+    }
+
+    return ctx.db.mutation.deleteUser({ where: { id } })
+  }
 }

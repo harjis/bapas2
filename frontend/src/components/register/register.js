@@ -55,8 +55,8 @@ class RegisterContainer extends React.Component {
         variables: { email, name, password }
       })
       .then(response => {
-        const id = response.data.signup.user.id;
-        const token = response.data.signup.token;
+        const id = response.data.createUser.user.id;
+        const token = response.data.createUser.token;
         this.saveUser(id, token);
       })
       .catch(error => {
@@ -90,8 +90,8 @@ RegisterContainer.propTypes = {
 };
 
 const CREATE_USER_MUTATION = gql`
-  mutation signup($email: String!, $name: String!, $password: String!) {
-    signup(email: $email, name: $name, password: $password) {
+  mutation createUser($email: String!, $name: String!, $password: String!) {
+    createUser(email: $email, name: $name, password: $password) {
       token
       user {
         id

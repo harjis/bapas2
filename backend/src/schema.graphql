@@ -11,8 +11,9 @@ type Query {
 
 type Mutation {
   createAccount(name: String!, iban: String!): Account!
-  signup(email: String!, password: String!, name: String!): AuthPayload!
+  createUser(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
+  deleteUser(id: ID!): User!
   createDraft(title: String!, text: String!): Post!
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
