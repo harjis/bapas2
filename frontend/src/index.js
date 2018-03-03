@@ -7,6 +7,7 @@ import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import Accounts from './components/accounts/accounts';
+import ErrorBoundary from './components/generic/error_boundary/error_boundary';
 import Header from './components/header/header';
 import LoginContainer from './components/login/login_container';
 import RegisterContainer from './components/register/register';
@@ -27,12 +28,14 @@ ReactDOM.render(
     <Router>
       <React.Fragment>
         <Header />
-        <Switch>
-          <PrivateRoute exact path="/" component={Workspace} />
-          <PrivateRoute path="/accounts" component={Accounts} />
-          <Route path="/register" component={RegisterContainer} />
-          <Route path="/login" component={LoginContainer} />
-        </Switch>
+        <ErrorBoundary>
+          <Switch>
+            <PrivateRoute exact path="/" component={Workspace} />
+            <PrivateRoute path="/accounts" component={Accounts} />
+            <Route path="/register" component={RegisterContainer} />
+            <Route path="/login" component={LoginContainer} />
+          </Switch>
+        </ErrorBoundary>
       </React.Fragment>
     </Router>
   </ApolloProvider>,
