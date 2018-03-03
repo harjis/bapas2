@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { withApollo } from 'react-apollo';
 
-import { USER_ID, USER_TOKEN } from 'src/constants/user_constants';
+import { isLoggedIn, logout } from 'src/utils/auth';
 
 import styles from './header.module.css';
 
@@ -19,17 +19,20 @@ class Header extends React.Component {
   }
 
   logout = () => {
-    localStorage.removeItem(USER_ID);
-    localStorage.removeItem(USER_TOKEN);
+    logout();
     this.props.client.resetStore();
   };
 
   render() {
-    const userId = localStorage.getItem(USER_ID);
     return (
       <div className={styles.container}>
-        <div className={styles.leftItems}>{leftItems.map(this.item)}</div>
-        {!userId ? (
+        {isLoggedIn() ? (
+          <div className={styles.leftItems}>{leftItems.map(this.item)}</div>
+        ) : (
+          // Maybe not that nice: Empty div needs to be returned so that login/logout stays right aligned
+          <div />
+        )}
+        {!isLoggedIn() ? (
           <div className={styles.rightItems}>{rightItems.map(this.item)}</div>
         ) : (
           <Link onClick={this.logout} key={'logout'} to={'/'}>

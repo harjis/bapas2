@@ -11,6 +11,7 @@ import Header from './components/header/header';
 import LoginContainer from './components/login/login_container';
 import RegisterContainer from './components/register/register';
 import Workspace from './components/workspace/workspace';
+import { PrivateRoute } from './utils/routing';
 
 import './index.module.css';
 
@@ -27,8 +28,8 @@ ReactDOM.render(
       <div>
         <Header />
         <Switch>
-          <Route exact path="/" component={Workspace} />
-          <Route path="/accounts" component={Accounts} />
+          <PrivateRoute exact path="/" component={Workspace} />
+          <PrivateRoute path="/accounts" component={Accounts} />
           <Route path="/register" component={RegisterContainer} />
           <Route path="/login" component={LoginContainer} />
         </Switch>

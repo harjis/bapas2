@@ -6,7 +6,7 @@ import { graphql } from 'react-apollo/index';
 
 import Errors, { ErrorsHOC } from 'src/components/generic/errors/errors';
 import Login from './login';
-import { USER_ID, USER_TOKEN } from 'src/constants/user_constants';
+import { login } from 'src/utils/auth';
 
 class LoginContainer extends React.Component {
   state = {
@@ -25,17 +25,12 @@ class LoginContainer extends React.Component {
       .then(response => {
         const id = response.data.login.user.id;
         const token = response.data.login.token;
-        this.saveUser(id, token);
+        login(id, token);
 
         this.props.history.push('/');
       })
       .catch(error => this.props.onError([{ message: error.message }]));
   };
-
-  saveUser(id, token) {
-    localStorage.setItem(USER_ID, id);
-    localStorage.setItem(USER_TOKEN, token);
-  }
 
   render() {
     return (
