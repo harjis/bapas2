@@ -25,7 +25,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
-      <div>
+      <React.Fragment>
         <Header />
         <Switch>
           <PrivateRoute exact path="/" component={Workspace} />
@@ -33,7 +33,7 @@ ReactDOM.render(
           <Route path="/register" component={RegisterContainer} />
           <Route path="/login" component={LoginContainer} />
         </Switch>
-      </div>
+      </React.Fragment>
     </Router>
   </ApolloProvider>,
   document.getElementById('app')
