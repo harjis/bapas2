@@ -4,6 +4,10 @@ export const isLoggedIn = () => {
   return localStorage.getItem(USER_ID) && localStorage.getItem(USER_TOKEN);
 };
 
+export const getToken = () => {
+  return localStorage.getItem(USER_TOKEN);
+};
+
 export const login = (id, token) => {
   localStorage.setItem(USER_ID, id);
   localStorage.setItem(USER_TOKEN, token);

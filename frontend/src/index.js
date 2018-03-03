@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { HttpLink } from 'apollo-link-http';
+import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { setContext } from 'apollo-link-context';
 
 import Accounts from './components/accounts/accounts';
 import ErrorBoundary from './components/generic/error_boundary/error_boundary';
@@ -13,13 +14,26 @@ import LoginContainer from './components/login/login_container';
 import RegisterContainer from './components/register/register';
 import Workspace from './components/workspace/workspace';
 import { PrivateRoute } from './utils/routing';
+import { getToken } from './utils/auth';
 
 import './index.module.css';
 
-const httpLink = new HttpLink({ uri: 'http://localhost:4000' });
+const httpLink = createHttpLink({
+  uri: 'http://localhost:4000'
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = getToken();
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  };
+});
 
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 });
 
