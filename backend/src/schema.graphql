@@ -3,10 +3,6 @@
 type Query {
   accounts: [Account!]!
   users: [User!]!
-  feed: [Post!]!
-  drafts: [Post!]!
-  post(id: ID!): Post!
-  me: User
 }
 
 type Mutation {
@@ -14,9 +10,6 @@ type Mutation {
   createUser(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
   deleteUser(id: ID!): User!
-  createDraft(title: String!, text: String!): Post!
-  publish(id: ID!): Post!
-  deletePost(id: ID!): Post!
 }
 
 type AuthPayload {
