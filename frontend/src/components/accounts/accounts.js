@@ -2,8 +2,10 @@ import * as React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import Loading from 'src/components/generic/loading/loading';
+
 const Accounts = props => {
-  if (props.data.loading) return 'Loading';
+  if (props.data.loading) return <Loading />;
 
   return (
     <div>
