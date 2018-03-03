@@ -5,7 +5,7 @@ import { compose } from 'recompose';
 import { graphql } from 'react-apollo';
 
 import Button from 'src/components/generic/button/button';
-import { USER_ID, USER_TOKEN } from 'src/constants/user_constants';
+import { login } from 'src/utils/auth';
 
 import styles from './register.module.css';
 import Errors, { ErrorsHOC } from 'src/components/generic/errors/errors';
@@ -57,17 +57,13 @@ class RegisterContainer extends React.Component {
       .then(response => {
         const id = response.data.createUser.user.id;
         const token = response.data.createUser.token;
-        this.saveUser(id, token);
+        login(id, token);
+        this.props.history.push('/');
       })
       .catch(error => {
         this.props.onError([{ message: error.message }]);
       });
   };
-
-  saveUser(id, token) {
-    localStorage.setItem(USER_ID, id);
-    localStorage.setItem(USER_TOKEN, token);
-  }
 
   render() {
     return (
