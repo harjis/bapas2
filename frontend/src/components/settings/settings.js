@@ -34,9 +34,18 @@ class SettingsContainer extends React.Component {
   handleChangeName = event => this.setState({ name: event.target.value });
   handleSubmit = () => {
     const { name } = this.state;
-    this.props.submit({ name }).then(response => {
-      console.log(response);
-    });
+    this.props
+      .mutate({
+        variables: { name },
+        refetchQueries: [
+          {
+            query: CURRENT_USER
+          }
+        ]
+      })
+      .then(response => {
+        console.log(response);
+      });
   };
 
   render() {
@@ -51,22 +60,4 @@ const USER_MUTATION = gql`
     }
   }
 `;
-
-export default graphql(USER_MUTATION, {
-  props({ ownProps, mutate }) {
-    return {
-      submit({ name }) {
-        return mutate({
-          variables: { name },
-          update: (store, { data: { updateUser } }) => {
-            const data = store.readQuery({ query: CURRENT_USER });
-            // Add our comment from the mutation to the end.
-            // data.comments.push(updateUser);
-            // Write our data back to the cache.
-            store.writeQuery({ query: CURRENT_USER, data });
-          }
-        });
-      }
-    };
-  }
-})(SettingsContainer);
+export default graphql(USER_MUTATION)(SettingsContainer);
