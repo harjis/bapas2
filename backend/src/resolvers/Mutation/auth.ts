@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
-import { Context } from '../../utils'
+import { Context, getUserId } from '../../utils'
 
 export const auth = {
   async createUser(parent, args, ctx: Context, info) {
@@ -18,6 +18,23 @@ export const auth = {
       token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
       user,
     }
+  },
+
+  async updateUser(parent, { name }, ctx: Context, info) {
+    const id = getUserId(ctx)
+    if (name.length === 0) {
+      throw new Error('Name can not be empty string');
+    }
+
+    const userExists = await ctx.db.exists.User({
+      id
+    });
+
+    if (!userExists) {
+      throw new Error(`User not found or you are trying to modify other user`)
+    }
+
+    return ctx.db.mutation.updateUser({ where: { id }, data: { name } }, info);
   },
 
   async login(parent, { email, password }, ctx: Context, info) {

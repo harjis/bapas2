@@ -12,7 +12,7 @@ import ErrorBoundary from './components/generic/error_boundary/error_boundary';
 import Header from './components/header/header';
 import LoginContainer from './components/login/login_container';
 import RegisterContainer from './components/register/register';
-import Settings from './components/settings/settings';
+import SettingsContainer from './components/settings/settings';
 import Workspace from './components/workspace/workspace';
 import { getToken } from './utils/auth';
 import { PrivateRoute } from './utils/routing';
@@ -47,7 +47,7 @@ ReactDOM.render(
           <Switch>
             <PrivateRoute exact path="/" component={Workspace} />
             <PrivateRoute path="/accounts" component={Accounts} />
-            <PrivateRoute path="/settings" component={Settings} />
+            <PrivateRoute path="/settings" component={SettingsContainer} />
             <Route path="/register" component={RegisterContainer} />
             <Route path="/login" component={LoginContainer} />
           </Switch>
