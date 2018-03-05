@@ -67,7 +67,7 @@ class Header extends React.Component {
   }
 }
 
-const CURRENT_USER = gql`
+export const CURRENT_USER = gql`
   query CurrentUser {
     currentUser {
       name
