@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { graphql } from 'react-apollo/index';
+import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { branch } from 'recompose';
+import { branch, compose } from 'recompose';
+import { withApollo } from 'react-apollo';
 
 import Loading from 'src/components/generic/loading/loading';
 import { isLoggedIn, logout } from 'src/utils/auth';
@@ -76,4 +77,4 @@ export const CURRENT_USER = gql`
 `;
 
 const NoopHOC = WrappedComponent => WrappedComponent;
-export default branch(isLoggedIn, graphql(CURRENT_USER), NoopHOC)(Header);
+export default branch(isLoggedIn, compose(graphql(CURRENT_USER), withApollo), NoopHOC)(Header);
