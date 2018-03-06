@@ -4,11 +4,12 @@
 
   --lineHeight: 24px;
 
-  --mainColor: rgba(155, 66, 244, .8);
+  --mainColor: rgba(155, 66, 244, 0.8);
   --mainColorDark: rgba(155, 66, 244, 1);
   --mainColorDarkest: rgba(155, 66, 244, 1);
   --white: white;
 
   --danger: rgba(244, 135, 126, 1);
+  --success: rgba(169, 244, 177, 1);
   --borderRadius: 3px;
 }

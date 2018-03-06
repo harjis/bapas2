@@ -20,10 +20,16 @@ export function ErrorsHOC(WrappedComponent) {
     };
 
     handleOnError = errors => this.setState({ errors });
+    handleClearErrors = () => this.setState({ errors: [] });
 
     render() {
       return (
-        <WrappedComponent {...this.props} errors={this.state.errors} onError={this.handleOnError} />
+        <WrappedComponent
+          {...this.props}
+          errors={this.state.errors}
+          onError={this.handleOnError}
+          onClearErrors={this.handleClearErrors}
+        />
       );
     }
   };
