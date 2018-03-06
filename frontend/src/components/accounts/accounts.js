@@ -41,7 +41,6 @@ Accounts.propTypes = {
 export default graphql(gql`
   query AllAccounts {
     accounts {
-      id
       name
       iban
     }
