@@ -10,7 +10,11 @@ import { isLoggedIn, logout } from 'src/utils/auth';
 
 import styles from './header.module.css';
 
-const leftItems = [{ label: 'Icon home', url: '' }, { label: 'Accounts', url: 'accounts' }];
+const leftItems = [
+  { label: 'Icon home', url: '' },
+  { label: 'Accounts', url: 'accounts' },
+  { label: 'Upload', url: 'upload' }
+];
 const rightItems = [{ label: 'Login', url: 'login' }, { label: 'Register', url: 'register' }];
 
 class Header extends React.Component {

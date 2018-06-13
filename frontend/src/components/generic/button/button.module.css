@@ -6,6 +6,7 @@
   padding: 0 var(--gutterSm);
   cursor: pointer;
   color: var(--white);
+  display: inline-block;
 }
 
 .container:hover {
