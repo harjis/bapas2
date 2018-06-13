@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
+import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
 
@@ -13,6 +15,7 @@ import Header from './components/header/header';
 import LoginContainer from './components/login/login_container';
 import RegisterContainer from './components/register/register';
 import SettingsContainer from './components/settings/settings';
+import UploadContainer from './components/upload/upload';
 import Workspace from './components/workspace/workspace';
 import { getToken } from './utils/auth';
 import { PrivateRoute } from './utils/routing';
@@ -20,6 +23,10 @@ import { PrivateRoute } from './utils/routing';
 import './index.module.css';
 
 const httpLink = createHttpLink({
+  uri: 'http://localhost:4000'
+});
+
+const uploadLink = createUploadLink({
   uri: 'http://localhost:4000'
 });
 
@@ -33,8 +40,10 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+const link = ApolloLink.from([authLink, uploadLink]);
+
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link,
   cache: new InMemoryCache()
 });
 
@@ -48,6 +57,7 @@ ReactDOM.render(
             <PrivateRoute exact path="/" component={Workspace} />
             <PrivateRoute path="/accounts" component={Accounts} />
             <PrivateRoute path="/settings" component={SettingsContainer} />
+            <PrivateRoute path="/upload" component={UploadContainer} />
             <Route path="/register" component={RegisterContainer} />
             <Route path="/login" component={LoginContainer} />
           </Switch>
