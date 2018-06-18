@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-export function getUserId(ctx) {
+function getUserId(ctx) {
   const Authorization = ctx.request.get('Authorization');
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '');
@@ -11,7 +11,7 @@ export function getUserId(ctx) {
   throw new AuthError()
 }
 
-export class AuthError extends Error {
+class AuthError extends Error {
   constructor() {
     super('Not authorized');
   }
