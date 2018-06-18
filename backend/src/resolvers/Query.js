@@ -1,6 +1,6 @@
 const { getUserId } = require('../utils');
 
-export const Query = {
+const Query = {
   accounts(parent, args, ctx, info) {
     getUserId(ctx)
     return ctx.db.query.accounts({}, info)
@@ -13,4 +13,6 @@ export const Query = {
     getUserId(ctx)
     return ctx.db.query.users({}, info)
   }
-}
+};
+
+module.exports = { Query };

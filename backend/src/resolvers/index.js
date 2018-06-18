@@ -3,7 +3,7 @@ const { account } = require('./Mutation/account');
 const { auth } = require('./Mutation/auth');
 const { AuthPayload } = require('./AuthPayload');
 
-export default {
+module.exports = {
   Query,
   Mutation: {
     ...account,
