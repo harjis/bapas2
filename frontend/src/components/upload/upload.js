@@ -7,6 +7,7 @@ import { graphql } from 'react-apollo/index';
 import Button from '../generic/button/button';
 import Errors, { ErrorsHOC } from '../generic/errors/errors';
 import Success from '../generic/success/success';
+import UploadsContainer from './uploads';
 
 import styles from './upload.module.css';
 
@@ -52,6 +53,7 @@ class UploadContainer extends React.Component {
         <Errors errors={this.props.errors} />
         {this.state.updateOk && <Success />}
         <Upload onUpload={this.handleUpload} />
+        <UploadsContainer />
       </React.Fragment>
     );
   }
