@@ -10,7 +10,10 @@
     "bcryptjs": "2.4.3",
     "graphql-yoga": "1.14.8",
     "jsonwebtoken": "8.3.0",
-    "prisma-binding": "2.1.0"
+    "lowdb": "^1.0.0",
+    "mkdirp": "^0.5.1",
+    "prisma-binding": "2.1.0",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "dotenv": "6.0.0",

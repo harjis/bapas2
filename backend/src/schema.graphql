@@ -6,6 +6,7 @@ type Query {
   accounts: [Account!]!
   users: [User!]!
   currentUser: User!
+  uploads: [File]
 }
 
 type Mutation {
@@ -14,6 +15,9 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
   deleteUser(id: ID!): User!
   updateUser(name: String!): User!
+
+  singleUpload (file: Upload!): File!
+  multipleUpload (files: [Upload!]!): [File!]!
 }
 
 type AuthPayload {
@@ -25,4 +29,14 @@ type User {
   id: ID!
   email: String!
   name: String!
+}
+
+scalar Upload
+
+type File {
+  id: ID!
+  path: String!
+  filename: String!
+  mimetype: String!
+  encoding: String!
 }
