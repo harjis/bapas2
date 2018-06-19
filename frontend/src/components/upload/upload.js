@@ -5,6 +5,8 @@ import { compose } from 'recompose';
 import { graphql } from 'react-apollo/index';
 
 import Button from '../generic/button/button';
+import Errors, { ErrorsHOC } from '../generic/errors/errors';
+import Success from '../generic/success/success';
 
 import styles from './upload.module.css';
 
@@ -31,19 +33,27 @@ Upload.propTypes = {
 };
 
 class UploadContainer extends React.Component {
+  state = {
+    updateOk: undefined
+  };
+
   handleUpload = ({ target: { validity, files: [file] } }) =>
     validity.valid &&
-    this.props.mutate({
-      variables: { file },
-      update: (proxy, { data: { singleUpload } }) => {
-        const data = proxy.readQuery({ query: uploadsQuery });
-        data.uploads.push(singleUpload);
-        proxy.writeQuery({ query: uploadsQuery, data });
-      }
-    });
+    this.props
+      .mutate({
+        variables: { file }
+      })
+      .then(() => this.setState({ updateOk: true }))
+      .catch(error => this.props.onError([error]));
 
   render() {
-    return <Upload onUpload={this.handleUpload} />;
+    return (
+      <React.Fragment>
+        <Errors errors={this.props.errors} />
+        {this.state.updateOk && <Success />}
+        <Upload onUpload={this.handleUpload} />
+      </React.Fragment>
+    );
   }
 }
 
@@ -59,4 +69,4 @@ const UPLOAD = gql`
   }
 `;
 
-export default graphql(UPLOAD)(UploadContainer);
+export default compose(graphql(UPLOAD), ErrorsHOC)(UploadContainer);
