@@ -1,0 +1,12 @@
+@import 'config/styles/variables.css';
+
+.container {
+  display: flex;
+  margin: var(--gutter);
+  flex-direction: column;
+  align-items: center;
+}
+
+.titleContainer {
+  margin: var(--gutter);
+}
