@@ -14,7 +14,7 @@ const Query = {
       getUserId(ctx);
       return ctx.db.query.users({}, info);
     },
-    uploads() {
+    uploads(parent, args, ctx) {
       getUserId(ctx);
       return db.get('uploads').value();
     }
