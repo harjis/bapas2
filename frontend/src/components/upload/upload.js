@@ -13,37 +13,37 @@ const Upload = props => (
     <div className={styles.row}>Upload transactions</div>
     <div className={styles.row}>
       <form>
-        <input type="file" onChange={props.onChangeFile} />
-        <Button onClick={props.onUpload}>Upload</Button>
+        <input type="file" onChange={props.onUpload} />
+        <Button
+          onClick={() => {
+            console.log('do nothing for now');
+          }}
+        >
+          Upload
+        </Button>
       </form>
     </div>
   </div>
 );
 
 Upload.propTypes = {
-  onChangeFile: PropTypes.func.isRequired,
   onUpload: PropTypes.func.isRequired
 };
 
 class UploadContainer extends React.Component {
-  handleUpload = ({ target: { validity, files: [file] } }) => {
-    console.log(validity, file);
+  handleUpload = ({ target: { validity, files: [file] } }) =>
+    validity.valid &&
     this.props.mutate({
       variables: { file },
       update: (proxy, { data: { singleUpload } }) => {
-        console.log(singleUpload);
-        console.log(data);
-        // const data = proxy.readQuery({ query: uploadsQuery });
-        // data.uploads.push(singleUpload);
-        // proxy.writeQuery({ query: uploadsQuery, data });
+        const data = proxy.readQuery({ query: uploadsQuery });
+        data.uploads.push(singleUpload);
+        proxy.writeQuery({ query: uploadsQuery, data });
       }
     });
-  };
-  handleFileChange = e => {
-    this.setState({ file: e.target.files[0] });
-  };
+
   render() {
-    return <Upload onUpload={this.handleUpload} onChangeFile={this.handleUpload} />;
+    return <Upload onUpload={this.handleUpload} />;
   }
 }
 
