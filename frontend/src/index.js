@@ -4,7 +4,6 @@ import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ApolloLink } from 'apollo-link';
-import { createHttpLink } from 'apollo-link-http';
 import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
@@ -21,10 +20,6 @@ import { getToken } from './utils/auth';
 import { PrivateRoute } from './utils/routing';
 
 import './index.module.css';
-
-const httpLink = createHttpLink({
-  uri: 'http://localhost:4000'
-});
 
 const uploadLink = createUploadLink({
   uri: 'http://localhost:4000'
