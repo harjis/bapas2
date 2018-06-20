@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { graphql } from 'react-apollo/index';
 
+import RemoveIcon from '../generic/remove/remove';
 import Loading from '../generic/loading/loading';
 
 import styles from './uploads.module.css';
@@ -11,6 +12,9 @@ import styles from './uploads.module.css';
 const TableRow = upload => (
   <tr key={upload.filename}>
     <td>{upload.filename}</td>
+    <td className={styles.removeIcon}>
+      <RemoveIcon />
+    </td>
   </tr>
 );
 
@@ -22,6 +26,7 @@ const Uploads = props => {
       <table>
         <thead>
           <th>Filename</th>
+          <th>Remove</th>
         </thead>
         <tbody>{props.data.uploads.map(TableRow)}</tbody>
       </table>

@@ -10,3 +10,7 @@
 .titleContainer {
   margin: var(--gutter);
 }
+
+.removeIcon {
+  text-align: center;
+}
