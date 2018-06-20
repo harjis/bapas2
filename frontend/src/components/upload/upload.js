@@ -7,7 +7,7 @@ import { graphql } from 'react-apollo/index';
 import Button from '../generic/button/button';
 import Errors, { ErrorsHOC } from '../generic/errors/errors';
 import Success from '../generic/success/success';
-import UploadsContainer from './uploads';
+import Uploads from './uploads';
 
 import styles from './upload.module.css';
 
@@ -47,20 +47,33 @@ class UploadContainer extends React.Component {
       .then(() => this.setState({ updateOk: true }))
       .catch(error => this.props.onError([error]));
 
+  handleRemove = id => {
+    this.props
+      .mutate({ variables: { id } })
+      .then(() => this.setState({ updateOk: true }))
+      .catch(error => this.props.onError([{ message: error.message }]));
+  };
+
   render() {
+    console.log(this.props);
     return (
       <React.Fragment>
         <Errors errors={this.props.errors} />
         {this.state.updateOk && <Success />}
         <Upload onUpload={this.handleUpload} />
-        <UploadsContainer />
+        <Uploads
+          loading={this.props.data.loading}
+          onError={this.props.onError}
+          onRemove={this.handleRemove}
+          uploads={this.props.data.uploads}
+        />
       </React.Fragment>
     );
   }
 }
 
-const UPLOAD = gql`
-  mutation($file: Upload!) {
+const SINGLE_UPLOAD = gql`
+  mutation singleUpload($file: Upload!) {
     singleUpload(file: $file) {
       id
       filename
@@ -71,4 +84,18 @@ const UPLOAD = gql`
   }
 `;
 
-export default compose(graphql(UPLOAD), ErrorsHOC)(UploadContainer);
+const UPLOADS = gql`
+  query {
+    uploads {
+      id
+      filename
+    }
+  }
+`;
+const DELETE_UPLOAD = gql`
+  mutation deleteUpload($id: ID!) {
+    deleteUpload(id: $id)
+  }
+`;
+
+export default compose(graphql(SINGLE_UPLOAD), graphql(UPLOADS), ErrorsHOC)(UploadContainer);

@@ -1,8 +1,5 @@
 import * as React from 'react';
-import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
-import { compose } from 'recompose';
-import { graphql } from 'react-apollo/index';
 
 import Button from '../generic/button/button';
 import RemoveIcon from '../generic/remove/remove';
@@ -17,13 +14,13 @@ const TableRow = ({ upload, onRemove }) => (
       <Button onClick={() => {}}>Process</Button>
     </td>
     <td className={styles.controlButtons}>
-      <RemoveIcon onClick={onRemove.bind(upload.id)} />
+      <RemoveIcon onClick={() => onRemove(upload.id)} />
     </td>
   </tr>
 );
 
 const Uploads = props => {
-  if (props.data.loading) return <Loading />;
+  if (props.loading) return <Loading />;
   return (
     <div className={styles.container}>
       <div className={styles.titleContainer}>Uploads</div>
@@ -36,7 +33,7 @@ const Uploads = props => {
           </tr>
         </thead>
         <tbody>
-          {props.data.uploads.map(upload => (
+          {props.uploads.map(upload => (
             <TableRow key={upload.id} upload={upload} onRemove={props.onRemove} />
           ))}
         </tbody>
@@ -46,24 +43,9 @@ const Uploads = props => {
 };
 
 Uploads.propTypes = {
-  data: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+  uploads: PropTypes.array,
   onRemove: PropTypes.func.isRequired
 };
 
-class UploadsContainer extends React.Component {
-  handleRemove = () => {};
-  render() {
-    return <Uploads data={this.props.data} onRemove={this.handleRemove} />;
-  }
-}
-
-const UPLOAD = gql`
-  query {
-    uploads {
-      id
-      filename
-    }
-  }
-`;
-
-export default compose(graphql(UPLOAD))(UploadsContainer);
+export default Uploads;
