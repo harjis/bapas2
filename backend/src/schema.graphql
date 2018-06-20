@@ -18,6 +18,7 @@ type Mutation {
 
   singleUpload (file: Upload!): File!
   multipleUpload (files: [Upload!]!): [File!]!
+  deleteUpload(id: ID!): ID!
 }
 
 type AuthPayload {

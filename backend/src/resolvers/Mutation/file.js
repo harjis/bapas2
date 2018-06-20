@@ -1,7 +1,8 @@
-const { processUpload } = require('../../file_upload');
+const { deleteFile, saveFile } = require('../../file_upload');
 const file = {
-  singleUpload: (obj, { file }) => processUpload(file),
-  multipleUpload: (obj, { files }) => Promise.all(files.map(processUpload)),
+  singleUpload: (obj, { file }) => saveFile(file),
+  multipleUpload: (obj, { files }) => Promise.all(files.map(saveFile)),
+  deleteUpload: (obj, { id }) => deleteFile(id),
 };
 
 module.exports = file;
