@@ -14,7 +14,7 @@ const TableRow = ({ upload, onRemove }) => (
       <Button onClick={() => {}}>Process</Button>
     </td>
     <td className={styles.controlButtons}>
-      <RemoveIcon onClick={() => onRemove(upload.id)} />
+      <RemoveIcon onClick={() => onRemove({ variables: { id: upload.id } })} />
     </td>
   </tr>
 );
