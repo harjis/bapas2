@@ -2,7 +2,7 @@ import * as React from 'react';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
-import { graphql } from 'react-apollo/index';
+import { graphql, Mutation } from 'react-apollo/index';
 
 import Button from '../generic/button/button';
 import Errors, { ErrorsHOC } from '../generic/errors/errors';
@@ -47,26 +47,29 @@ class UploadContainer extends React.Component {
       .then(() => this.setState({ updateOk: true }))
       .catch(error => this.props.onError([error]));
 
-  handleRemove = id => {
-    this.props
-      .mutate({ variables: { id } })
-      .then(() => this.setState({ updateOk: true }))
-      .catch(error => this.props.onError([{ message: error.message }]));
-  };
+  handleRemoveSuccess = () => this.setState({ updateOk: true });
+  handleRemoveFailed = error => this.props.onError([{ message: error.message }]);
 
   render() {
-    console.log(this.props);
     return (
       <React.Fragment>
         <Errors errors={this.props.errors} />
         {this.state.updateOk && <Success />}
         <Upload onUpload={this.handleUpload} />
-        <Uploads
-          loading={this.props.data.loading}
-          onError={this.props.onError}
-          onRemove={this.handleRemove}
-          uploads={this.props.data.uploads}
-        />
+        <Mutation
+          mutation={DELETE_UPLOAD}
+          onCompleted={this.handleRemoveSuccess}
+          onError={this.handleRemoveFailed}
+        >
+          {(deleteUpload) => (
+            <Uploads
+              loading={this.props.data.loading}
+              onError={this.props.onError}
+              onRemove={deleteUpload}
+              uploads={this.props.data.uploads}
+            />
+          )}
+        </Mutation>
       </React.Fragment>
     );
   }
