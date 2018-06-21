@@ -16,7 +16,15 @@ const Upload = props => (
     <div className={styles.row}>Upload transactions</div>
     <div className={styles.row}>
       <form>
-        <input type="file" onChange={props.onUpload} />
+        <input
+          type="file"
+          onChange={({ target: { validity, files: [file] } }) =>
+            validity.valid &&
+            props.onUpload({
+              variables: { file }
+            })
+          }
+        />
         <Button
           onClick={() => {
             console.log('do nothing for now');
@@ -38,30 +46,27 @@ class UploadContainer extends React.Component {
     updateOk: undefined
   };
 
-  handleUpload = ({ target: { validity, files: [file] } }) =>
-    validity.valid &&
-    this.props
-      .mutate({
-        variables: { file }
-      })
-      .then(() => this.setState({ updateOk: true }))
-      .catch(error => this.props.onError([error]));
-
-  handleRemoveSuccess = () => this.setState({ updateOk: true });
-  handleRemoveFailed = error => this.props.onError([{ message: error.message }]);
+  handleSuccess = () => this.setState({ updateOk: true });
+  handleFailed = error => this.props.onError([{ message: error.message }]);
 
   render() {
     return (
       <React.Fragment>
         <Errors errors={this.props.errors} />
         {this.state.updateOk && <Success />}
-        <Upload onUpload={this.handleUpload} />
+        <Mutation
+          mutation={SINGLE_UPLOAD}
+          onCompleted={this.handleSuccess}
+          onError={this.handleFailed}
+        >
+          {singleUpload => <Upload onUpload={singleUpload} />}
+        </Mutation>
         <Mutation
           mutation={DELETE_UPLOAD}
-          onCompleted={this.handleRemoveSuccess}
-          onError={this.handleRemoveFailed}
+          onCompleted={this.handleSuccess}
+          onError={this.handleFailed}
         >
-          {(deleteUpload) => (
+          {deleteUpload => (
             <Uploads
               loading={this.props.data.loading}
               onError={this.props.onError}
@@ -101,4 +106,4 @@ const DELETE_UPLOAD = gql`
   }
 `;
 
-export default compose(graphql(SINGLE_UPLOAD), graphql(UPLOADS), ErrorsHOC)(UploadContainer);
+export default compose(graphql(UPLOADS), ErrorsHOC)(UploadContainer);
