@@ -39,6 +39,13 @@ class UploadContainer extends React.Component {
           mutation={DELETE_UPLOAD}
           onCompleted={this.handleSuccess}
           onError={this.handleFailed}
+          update={(cache, { data: { deleteUpload: deletedUploadId } }) => {
+            const { uploads } = cache.readQuery({ query: GET_UPLOADS });
+            cache.writeQuery({
+              query: GET_UPLOADS,
+              data: { uploads: uploads.filter(upload => upload.id !== deletedUploadId) }
+            });
+          }}
         >
           {deleteUpload => (
             <Uploads
