@@ -1,8 +1,6 @@
 const { createWriteStream } = require('fs');
 const shortid = require('shortid');
-const { db, uploadDir } = require('./init');
-
-const getFilePath = (id) => `${uploadDir}/${id}.txt`;
+const { db, getFilePath } = require('./init');
 
 const saveFileToFilesystem = async ({ stream }) => {
   const id = shortid.generate();

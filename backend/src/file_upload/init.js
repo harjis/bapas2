@@ -11,4 +11,6 @@ db.defaults({ uploads: [] }).write();
 // Ensure upload directory exists
 mkdirp.sync(uploadDir);
 
-module.exports = { db, uploadDir };
+const getFilePath = (id) => `${uploadDir}/${id}.txt`;
+
+module.exports = { db, getFilePath };

@@ -1,7 +1,5 @@
 const { unlinkSync } = require('fs');
-const { db, uploadDir } = require('./init');
-
-const getFilePath = (id) => `${uploadDir}/${id}.txt`;
+const { db, getFilePath } = require('./init');
 
 const deleteFile = async id => {
   await deleteFileFromFilesystem({ id });
