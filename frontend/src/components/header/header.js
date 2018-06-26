@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { graphql, withApollo } from 'react-apollo';
 import { branch, compose } from 'recompose';
-import { withApollo } from 'react-apollo';
 
 import Loading from 'src/components/generic/loading/loading';
 import { isLoggedIn, logout } from 'src/utils/auth';
+import { CURRENT_USER } from "../../queries/user_queries";
 
 import styles from './header.module.css';
 
@@ -71,14 +70,6 @@ class Header extends React.Component {
     );
   }
 }
-
-export const CURRENT_USER = gql`
-  query CurrentUser {
-    currentUser {
-      name
-    }
-  }
-`;
 
 const NoopHOC = WrappedComponent => WrappedComponent;
 export default branch(isLoggedIn, compose(graphql(CURRENT_USER), withApollo), NoopHOC)(Header);

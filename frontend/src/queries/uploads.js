@@ -26,4 +26,10 @@ const DELETE_UPLOAD = gql`
   }
 `;
 
+const PROCESS_UPLOAD = gql`
+  mutation processUpload($id: ID!) {
+    processUpload(id: $id)
+  }
+`;
+
 export { ADD_UPLOAD, GET_UPLOADS, DELETE_UPLOAD };
