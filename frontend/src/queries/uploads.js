@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const SINGLE_UPLOAD = gql`
+const ADD_UPLOAD = gql`
   mutation singleUpload($file: Upload!) {
     singleUpload(file: $file) {
       id
@@ -26,4 +26,4 @@ const DELETE_UPLOAD = gql`
   }
 `;
 
-export { SINGLE_UPLOAD, GET_UPLOADS, DELETE_UPLOAD };
+export { ADD_UPLOAD, GET_UPLOADS, DELETE_UPLOAD };
