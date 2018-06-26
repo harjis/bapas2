@@ -9,6 +9,6 @@ type User {
 type Account {
   id: ID! @unique
   name: String
-  iban: String!
+  iban: String! @unique
   user: User!
 }
