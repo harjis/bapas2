@@ -25,8 +25,15 @@ class UploadContainer extends React.Component {
           mutation={ADD_UPLOAD}
           onCompleted={this.handleSuccess}
           onError={this.handleFailed}
+          update={(cache, { data: { addUpload } }) => {
+            const { uploads } = cache.readQuery({ query: GET_UPLOADS });
+            cache.writeQuery({
+              query: GET_UPLOADS,
+              data: { uploads: uploads.concat([addUpload]) }
+            });
+          }}
         >
-          {singleUpload => <Upload onUpload={singleUpload} />}
+          {addUpload => <Upload onUpload={addUpload} />}
         </Mutation>
         <Mutation
           mutation={DELETE_UPLOAD}

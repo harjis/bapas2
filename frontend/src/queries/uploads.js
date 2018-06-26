@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const ADD_UPLOAD = gql`
-  mutation singleUpload($file: Upload!) {
-    singleUpload(file: $file) {
+  mutation addUpload($file: Upload!) {
+    addUpload(file: $file) {
       id
       filename
       encoding
