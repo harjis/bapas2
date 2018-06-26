@@ -6,7 +6,8 @@ const processFile = (id, callback) => {
   const rl = readline.createInterface({
     input: fs.createReadStream(getFilePath(id))
   });
-  rl.on('line', callback);
+  let lineNumber = 1;
+  rl.on('line', (line) => callback(line, lineNumber++));
 };
 
 module.exports = processFile;
