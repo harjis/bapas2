@@ -6,7 +6,7 @@ const file = {
   addUpload: (obj, { file }) => saveFile(file),
   multipleUpload: (obj, { files }) => Promise.all(files.map(saveFile)),
   deleteUpload: (obj, { id }) => deleteFile(id),
-  async processFile(parent, { id }, ctx, info) {
+  async processUpload(parent, { id }, ctx, info) {
     const callback = (line) => {
       console.log(line);
     };

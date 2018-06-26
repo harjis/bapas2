@@ -7,14 +7,14 @@ import Loading from '../generic/loading/loading';
 
 import styles from './uploads.module.css';
 
-const TableRow = ({ upload, onRemove }) => (
+const TableRow = ({ upload, onProcess, onDelete }) => (
   <tr key={upload.filename}>
     <td>{upload.filename}</td>
     <td className={styles.controlButtons}>
-      <Button onClick={() => {}}>Process</Button>
+      <Button onClick={() => onProcess(upload.id)}>Process</Button>
     </td>
     <td className={styles.controlButtons}>
-      <RemoveIcon onClick={() => onRemove({ variables: { id: upload.id } })} />
+      <RemoveIcon onClick={() => onDelete(upload.id)} />
     </td>
   </tr>
 );
@@ -34,7 +34,12 @@ const Uploads = props => {
         </thead>
         <tbody>
           {props.uploads.map(upload => (
-            <TableRow key={upload.id} upload={upload} onRemove={props.onRemove} />
+            <TableRow
+              key={upload.id}
+              upload={upload}
+              onDelete={props.onDelete}
+              onProcess={props.onProcess}
+            />
           ))}
         </tbody>
       </table>
@@ -44,8 +49,9 @@ const Uploads = props => {
 
 Uploads.propTypes = {
   loading: PropTypes.bool.isRequired,
-  uploads: PropTypes.array,
-  onRemove: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired,
+  onProcess: PropTypes.func.isRequired,
+  uploads: PropTypes.array
 };
 
 export default Uploads;

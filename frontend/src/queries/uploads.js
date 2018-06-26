@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const ADD_UPLOAD = gql`
+export const ADD_UPLOAD = gql`
   mutation addUpload($file: Upload!) {
     addUpload(file: $file) {
       id
@@ -12,7 +12,7 @@ const ADD_UPLOAD = gql`
   }
 `;
 
-const GET_UPLOADS = gql`
+export const GET_UPLOADS = gql`
   query {
     uploads {
       id
@@ -20,16 +20,14 @@ const GET_UPLOADS = gql`
     }
   }
 `;
-const DELETE_UPLOAD = gql`
+export const DELETE_UPLOAD = gql`
   mutation deleteUpload($id: ID!) {
     deleteUpload(id: $id)
   }
 `;
 
-const PROCESS_UPLOAD = gql`
+export const PROCESS_UPLOAD = gql`
   mutation processUpload($id: ID!) {
     processUpload(id: $id)
   }
 `;
-
-export { ADD_UPLOAD, GET_UPLOADS, DELETE_UPLOAD };
