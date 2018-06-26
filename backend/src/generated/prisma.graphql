@@ -1,9 +1,9 @@
 # source: http://localhost:4466
-# timestamp: Tue Jun 19 2018 00:23:11 GMT+0300 (Eastern European Summer Time)
+# timestamp: Tue Jun 26 2018 19:38:49 GMT+0300 (Eastern European Summer Time)
 
 type Account implements Node {
   id: ID!
-  name: String!
+  name: String
   iban: String!
   user(where: UserWhereInput): User!
 }
@@ -19,7 +19,7 @@ type AccountConnection {
 }
 
 input AccountCreateInput {
-  name: String!
+  name: String
   iban: String!
   user: UserCreateOneWithoutAccountsInput!
 }
@@ -30,7 +30,7 @@ input AccountCreateManyWithoutUserInput {
 }
 
 input AccountCreateWithoutUserInput {
-  name: String!
+  name: String
   iban: String!
 }
 
@@ -58,7 +58,7 @@ enum AccountOrderByInput {
 
 type AccountPreviousValues {
   id: ID!
-  name: String!
+  name: String
   iban: String!
 }
 

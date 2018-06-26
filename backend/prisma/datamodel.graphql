@@ -8,7 +8,7 @@ type User {
 
 type Account {
   id: ID! @unique
-  name: String!
+  name: String
   iban: String!
   user: User!
 }
