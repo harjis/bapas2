@@ -12,12 +12,7 @@ const Upload = props => (
       <form>
         <input
           type="file"
-          onChange={({ target: { validity, files: [file] } }) =>
-            validity.valid &&
-            props.onUpload({
-              variables: { file }
-            })
-          }
+          onChange={({ target: { validity, files: [file] } }) => props.onUpload(file, validity)}
         />
         <Button
           onClick={() => {
