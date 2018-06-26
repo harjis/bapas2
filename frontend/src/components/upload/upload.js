@@ -1,13 +1,7 @@
 import * as React from 'react';
-import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
-import { compose } from 'recompose';
-import { graphql, Mutation } from 'react-apollo/index';
 
 import Button from '../generic/button/button';
-import Errors, { ErrorsHOC } from '../generic/errors/errors';
-import Success from '../generic/success/success';
-import Uploads from './uploads';
 
 import styles from './upload.module.css';
 
@@ -41,69 +35,4 @@ Upload.propTypes = {
   onUpload: PropTypes.func.isRequired
 };
 
-class UploadContainer extends React.Component {
-  state = {
-    updateOk: undefined
-  };
-
-  handleSuccess = () => this.setState({ updateOk: true });
-  handleFailed = error => this.props.onError([{ message: error.message }]);
-
-  render() {
-    return (
-      <React.Fragment>
-        <Errors errors={this.props.errors} />
-        {this.state.updateOk && <Success />}
-        <Mutation
-          mutation={SINGLE_UPLOAD}
-          onCompleted={this.handleSuccess}
-          onError={this.handleFailed}
-        >
-          {singleUpload => <Upload onUpload={singleUpload} />}
-        </Mutation>
-        <Mutation
-          mutation={DELETE_UPLOAD}
-          onCompleted={this.handleSuccess}
-          onError={this.handleFailed}
-        >
-          {deleteUpload => (
-            <Uploads
-              loading={this.props.data.loading}
-              onError={this.props.onError}
-              onRemove={deleteUpload}
-              uploads={this.props.data.uploads}
-            />
-          )}
-        </Mutation>
-      </React.Fragment>
-    );
-  }
-}
-
-const SINGLE_UPLOAD = gql`
-  mutation singleUpload($file: Upload!) {
-    singleUpload(file: $file) {
-      id
-      filename
-      encoding
-      mimetype
-      path
-    }
-  }
-`;
-
-const UPLOADS = gql`
-  query {
-    uploads {
-      id
-      filename
-    }
-  }
-`;
-const DELETE_UPLOAD = gql`
-  mutation deleteUpload($id: ID!) {
-    deleteUpload(id: $id)
-  }
-`;
-
-export default compose(graphql(UPLOADS), ErrorsHOC)(UploadContainer);
+export default Upload;

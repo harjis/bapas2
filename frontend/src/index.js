@@ -14,7 +14,7 @@ import Header from './components/header/header';
 import LoginContainer from './components/login/login_container';
 import RegisterContainer from './components/register/register';
 import SettingsContainer from './components/settings/settings';
-import UploadContainer from './components/upload/upload';
+import UploadContainer from './components/upload/upload_container';
 import Workspace from './components/workspace/workspace';
 import { getToken } from './utils/auth';
 import { PrivateRoute } from './utils/routing';
