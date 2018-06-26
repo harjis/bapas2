@@ -1,5 +1,5 @@
 const { getUserId } = require('../utils');
-const { db } = require('../file_upload');
+const { db } = require('../file_upload/init');
 
 const Query = {
     accounts(parent, args, ctx, info) {
