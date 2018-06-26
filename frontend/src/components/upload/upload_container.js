@@ -63,7 +63,7 @@ class UploadContainer extends React.Component {
       <React.Fragment>
         <Errors errors={this.props.errors} />
         {this.state.updateOk && <Success />}
-        <Upload onUpload={this.handleAddUpload} />}
+        <Upload onUpload={this.handleAddUpload} />
         <Uploads
           loading={this.props.data.loading}
           onDelete={this.handleDelete}
