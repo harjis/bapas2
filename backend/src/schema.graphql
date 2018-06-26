@@ -16,7 +16,7 @@ type Mutation {
   deleteUser(id: ID!): User!
   updateUser(name: String!): User!
 
-  singleUpload (file: Upload!): File!
+  addUpload (file: Upload!): File!
   multipleUpload (files: [Upload!]!): [File!]!
   deleteUpload(id: ID!): ID!
 }
