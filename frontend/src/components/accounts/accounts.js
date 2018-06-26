@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 
 import Loading from 'src/components/generic/loading/loading';
+import { GET_ACCOUNTS } from "../../queries/account_queries";
 
 import styles from './accounts.module.css';
 
@@ -38,11 +38,4 @@ Accounts.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default graphql(gql`
-  query AllAccounts {
-    accounts {
-      name
-      iban
-    }
-  }
-`)(Accounts);
+export default graphql(GET_ACCOUNTS)(Accounts);
