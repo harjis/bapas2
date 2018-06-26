@@ -3,12 +3,13 @@ const deleteFile = require('../../file_upload/delete_file');
 const processFile = require('../../file_upload/process_file');
 const { getUserId } = require('../../utils');
 
-const createAccount = (ctx, line, userId) => {
+const createOrUseExistingAccount = async (ctx, line, userId) => {
   const iban = line.split("\t")[1];
-  const promise = ctx.db.mutation.createAccount(
+  const account = await ctx.db.query.account({ where: { iban } })
+  if (account) return account;
+  return await ctx.db.mutation.createAccount(
     {
       data: {
-        name: '',
         iban,
         user: {
           connect: { id: userId }
@@ -16,7 +17,6 @@ const createAccount = (ctx, line, userId) => {
       }
     }
   );
-  promise.then(res => console.log(res)).catch(err => console.log(err));
 };
 
 const file = {
@@ -25,8 +25,9 @@ const file = {
   deleteUpload: (obj, { id }) => deleteFile(id),
   async processUpload(parent, { id }, ctx, info) {
     const userId = getUserId(ctx);
+    let account;
     processFile(id, (line, lineNumber) => {
-      if (lineNumber === 1) return createAccount(ctx, line, userId);
+      if (lineNumber === 1) account = createOrUseExistingAccount(ctx, line, userId);
     });
   }
 };
