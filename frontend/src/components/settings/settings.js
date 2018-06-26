@@ -1,5 +1,4 @@
 import * as React from 'react';
-import gql from 'graphql-tag';
 import PropsTypes from 'prop-types';
 import { compose } from 'recompose';
 import { graphql } from 'react-apollo';
@@ -7,7 +6,7 @@ import { graphql } from 'react-apollo';
 import Button from 'src/components/generic/button/button';
 import Errors, { ErrorsHOC } from 'src/components/generic/errors/errors';
 import Success from 'src/components/generic/success/success';
-import { CURRENT_USER } from '../header/header';
+import { CURRENT_USER, USER_MUTATION } from "../../queries/user_queries";
 
 import styles from './settings.module.css';
 
@@ -70,11 +69,4 @@ SettingsContainer.propTypes = {
   onClearErrors: PropsTypes.func.isRequired
 };
 
-const USER_MUTATION = gql`
-  mutation updateUser($name: String!) {
-    updateUser(name: $name) {
-      name
-    }
-  }
-`;
 export default compose(graphql(USER_MUTATION), ErrorsHOC)(SettingsContainer);
