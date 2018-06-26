@@ -12,7 +12,7 @@ const SINGLE_UPLOAD = gql`
   }
 `;
 
-const UPLOADS = gql`
+const GET_UPLOADS = gql`
   query {
     uploads {
       id
@@ -26,4 +26,4 @@ const DELETE_UPLOAD = gql`
   }
 `;
 
-export { SINGLE_UPLOAD, UPLOADS, DELETE_UPLOAD };
+export { SINGLE_UPLOAD, GET_UPLOADS, DELETE_UPLOAD };

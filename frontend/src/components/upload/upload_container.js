@@ -6,7 +6,7 @@ import Errors, { ErrorsHOC } from '../generic/errors/errors';
 import Success from '../generic/success/success';
 import Upload from './upload';
 import Uploads from './uploads';
-import { SINGLE_UPLOAD, UPLOADS, DELETE_UPLOAD } from '../../queries/uploads';
+import { SINGLE_UPLOAD, GET_UPLOADS, DELETE_UPLOAD } from '../../queries/uploads';
 
 class UploadContainer extends React.Component {
   state = {
@@ -47,4 +47,4 @@ class UploadContainer extends React.Component {
   }
 }
 
-export default compose(graphql(UPLOADS), ErrorsHOC)(UploadContainer);
+export default compose(graphql(GET_UPLOADS), ErrorsHOC)(UploadContainer);
