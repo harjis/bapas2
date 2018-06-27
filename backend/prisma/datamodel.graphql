@@ -12,3 +12,10 @@ type Account {
   iban: String! @unique
   user: User!
 }
+
+type Payment {
+  id: ID! @unique
+  amount: Float!
+  payment_date: DateTime!
+  account: Account!
+}
