@@ -13,9 +13,16 @@ type Account {
   user: User!
 }
 
+type OtherAccount {
+  id: ID! @unique
+  name: String
+  iban: String
+}
+
 type Payment {
   id: ID! @unique
   amount: Float!
-  payment_date: DateTime!
-  account: Account!
+  paymentDate: DateTime!
+  usersAccount: Account!
+  otherAccount: OtherAccount!
 }

@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Jun 26 2018 19:56:56 GMT+0300 (Eastern European Summer Time)
+# timestamp: Fri Jun 29 2018 12:40:34 GMT+0300 (Eastern European Summer Time)
 
 type Account implements Node {
   id: ID!
@@ -27,6 +27,11 @@ input AccountCreateInput {
 input AccountCreateManyWithoutUserInput {
   create: [AccountCreateWithoutUserInput!]
   connect: [AccountWhereUniqueInput!]
+}
+
+input AccountCreateOneInput {
+  create: AccountCreateInput
+  connect: AccountWhereUniqueInput
 }
 
 input AccountCreateWithoutUserInput {
@@ -101,6 +106,12 @@ input AccountSubscriptionWhereInput {
   node: AccountWhereInput
 }
 
+input AccountUpdateDataInput {
+  name: String
+  iban: String
+  user: UserUpdateOneWithoutAccountsInput
+}
+
 input AccountUpdateInput {
   name: String
   iban: String
@@ -116,6 +127,14 @@ input AccountUpdateManyWithoutUserInput {
   upsert: [AccountUpsertWithWhereUniqueWithoutUserInput!]
 }
 
+input AccountUpdateOneInput {
+  create: AccountCreateInput
+  connect: AccountWhereUniqueInput
+  delete: Boolean
+  update: AccountUpdateDataInput
+  upsert: AccountUpsertNestedInput
+}
+
 input AccountUpdateWithoutUserDataInput {
   name: String
   iban: String
@@ -124,6 +143,11 @@ input AccountUpdateWithoutUserDataInput {
 input AccountUpdateWithWhereUniqueWithoutUserInput {
   where: AccountWhereUniqueInput!
   data: AccountUpdateWithoutUserDataInput!
+}
+
+input AccountUpsertNestedInput {
+  update: AccountUpdateDataInput!
+  create: AccountCreateInput!
 }
 
 input AccountUpsertWithWhereUniqueWithoutUserInput {
@@ -273,6 +297,14 @@ type AggregateAccount {
   count: Int!
 }
 
+type AggregateOtherAccount {
+  count: Int!
+}
+
+type AggregatePayment {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -281,6 +313,8 @@ type BatchPayload {
   """The number of nodes that have been affected by the Batch operation."""
   count: Long!
 }
+
+scalar DateTime
 
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
@@ -291,16 +325,28 @@ scalar Long
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createAccount(data: AccountCreateInput!): Account!
+  createOtherAccount(data: OtherAccountCreateInput!): OtherAccount!
+  createPayment(data: PaymentCreateInput!): Payment!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateAccount(data: AccountUpdateInput!, where: AccountWhereUniqueInput!): Account
+  updateOtherAccount(data: OtherAccountUpdateInput!, where: OtherAccountWhereUniqueInput!): OtherAccount
+  updatePayment(data: PaymentUpdateInput!, where: PaymentWhereUniqueInput!): Payment
   deleteUser(where: UserWhereUniqueInput!): User
   deleteAccount(where: AccountWhereUniqueInput!): Account
+  deleteOtherAccount(where: OtherAccountWhereUniqueInput!): OtherAccount
+  deletePayment(where: PaymentWhereUniqueInput!): Payment
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertAccount(where: AccountWhereUniqueInput!, create: AccountCreateInput!, update: AccountUpdateInput!): Account!
+  upsertOtherAccount(where: OtherAccountWhereUniqueInput!, create: OtherAccountCreateInput!, update: OtherAccountUpdateInput!): OtherAccount!
+  upsertPayment(where: PaymentWhereUniqueInput!, create: PaymentCreateInput!, update: PaymentUpdateInput!): Payment!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyAccounts(data: AccountUpdateInput!, where: AccountWhereInput): BatchPayload!
+  updateManyOtherAccounts(data: OtherAccountUpdateInput!, where: OtherAccountWhereInput): BatchPayload!
+  updateManyPayments(data: PaymentUpdateInput!, where: PaymentWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyAccounts(where: AccountWhereInput): BatchPayload!
+  deleteManyOtherAccounts(where: OtherAccountWhereInput): BatchPayload!
+  deleteManyPayments(where: PaymentWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -313,6 +359,257 @@ enum MutationType {
 interface Node {
   """The id of the object."""
   id: ID!
+}
+
+type OtherAccount implements Node {
+  id: ID!
+  name: String
+  iban: String
+}
+
+"""A connection to a list of items."""
+type OtherAccountConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [OtherAccountEdge]!
+  aggregate: AggregateOtherAccount!
+}
+
+input OtherAccountCreateInput {
+  name: String
+  iban: String
+}
+
+input OtherAccountCreateOneInput {
+  create: OtherAccountCreateInput
+  connect: OtherAccountWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type OtherAccountEdge {
+  """The item at the end of the edge."""
+  node: OtherAccount!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum OtherAccountOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  iban_ASC
+  iban_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type OtherAccountPreviousValues {
+  id: ID!
+  name: String
+  iban: String
+}
+
+type OtherAccountSubscriptionPayload {
+  mutation: MutationType!
+  node: OtherAccount
+  updatedFields: [String!]
+  previousValues: OtherAccountPreviousValues
+}
+
+input OtherAccountSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [OtherAccountSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [OtherAccountSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [OtherAccountSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: OtherAccountWhereInput
+}
+
+input OtherAccountUpdateDataInput {
+  name: String
+  iban: String
+}
+
+input OtherAccountUpdateInput {
+  name: String
+  iban: String
+}
+
+input OtherAccountUpdateOneInput {
+  create: OtherAccountCreateInput
+  connect: OtherAccountWhereUniqueInput
+  delete: Boolean
+  update: OtherAccountUpdateDataInput
+  upsert: OtherAccountUpsertNestedInput
+}
+
+input OtherAccountUpsertNestedInput {
+  update: OtherAccountUpdateDataInput!
+  create: OtherAccountCreateInput!
+}
+
+input OtherAccountWhereInput {
+  """Logical AND on all given filters."""
+  AND: [OtherAccountWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [OtherAccountWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [OtherAccountWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  iban: String
+
+  """All values that are not equal to given value."""
+  iban_not: String
+
+  """All values that are contained in given list."""
+  iban_in: [String!]
+
+  """All values that are not contained in given list."""
+  iban_not_in: [String!]
+
+  """All values less than the given value."""
+  iban_lt: String
+
+  """All values less than or equal the given value."""
+  iban_lte: String
+
+  """All values greater than the given value."""
+  iban_gt: String
+
+  """All values greater than or equal the given value."""
+  iban_gte: String
+
+  """All values containing the given string."""
+  iban_contains: String
+
+  """All values not containing the given string."""
+  iban_not_contains: String
+
+  """All values starting with the given string."""
+  iban_starts_with: String
+
+  """All values not starting with the given string."""
+  iban_not_starts_with: String
+
+  """All values ending with the given string."""
+  iban_ends_with: String
+
+  """All values not ending with the given string."""
+  iban_not_ends_with: String
+}
+
+input OtherAccountWhereUniqueInput {
+  id: ID
 }
 
 """Information about pagination in a connection."""
@@ -330,13 +627,219 @@ type PageInfo {
   endCursor: String
 }
 
+type Payment implements Node {
+  id: ID!
+  amount: Float!
+  paymentDate: DateTime!
+  usersAccount(where: AccountWhereInput): Account!
+  otherAccount(where: OtherAccountWhereInput): OtherAccount!
+}
+
+"""A connection to a list of items."""
+type PaymentConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PaymentEdge]!
+  aggregate: AggregatePayment!
+}
+
+input PaymentCreateInput {
+  amount: Float!
+  paymentDate: DateTime!
+  usersAccount: AccountCreateOneInput!
+  otherAccount: OtherAccountCreateOneInput!
+}
+
+"""An edge in a connection."""
+type PaymentEdge {
+  """The item at the end of the edge."""
+  node: Payment!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum PaymentOrderByInput {
+  id_ASC
+  id_DESC
+  amount_ASC
+  amount_DESC
+  paymentDate_ASC
+  paymentDate_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type PaymentPreviousValues {
+  id: ID!
+  amount: Float!
+  paymentDate: DateTime!
+}
+
+type PaymentSubscriptionPayload {
+  mutation: MutationType!
+  node: Payment
+  updatedFields: [String!]
+  previousValues: PaymentPreviousValues
+}
+
+input PaymentSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PaymentSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PaymentSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PaymentSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: PaymentWhereInput
+}
+
+input PaymentUpdateInput {
+  amount: Float
+  paymentDate: DateTime
+  usersAccount: AccountUpdateOneInput
+  otherAccount: OtherAccountUpdateOneInput
+}
+
+input PaymentWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PaymentWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PaymentWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PaymentWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  amount: Float
+
+  """All values that are not equal to given value."""
+  amount_not: Float
+
+  """All values that are contained in given list."""
+  amount_in: [Float!]
+
+  """All values that are not contained in given list."""
+  amount_not_in: [Float!]
+
+  """All values less than the given value."""
+  amount_lt: Float
+
+  """All values less than or equal the given value."""
+  amount_lte: Float
+
+  """All values greater than the given value."""
+  amount_gt: Float
+
+  """All values greater than or equal the given value."""
+  amount_gte: Float
+  paymentDate: DateTime
+
+  """All values that are not equal to given value."""
+  paymentDate_not: DateTime
+
+  """All values that are contained in given list."""
+  paymentDate_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  paymentDate_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  paymentDate_lt: DateTime
+
+  """All values less than or equal the given value."""
+  paymentDate_lte: DateTime
+
+  """All values greater than the given value."""
+  paymentDate_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  paymentDate_gte: DateTime
+  usersAccount: AccountWhereInput
+  otherAccount: OtherAccountWhereInput
+}
+
+input PaymentWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   accounts(where: AccountWhereInput, orderBy: AccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Account]!
+  otherAccounts(where: OtherAccountWhereInput, orderBy: OtherAccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OtherAccount]!
+  payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment]!
   user(where: UserWhereUniqueInput!): User
   account(where: AccountWhereUniqueInput!): Account
+  otherAccount(where: OtherAccountWhereUniqueInput!): OtherAccount
+  payment(where: PaymentWhereUniqueInput!): Payment
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   accountsConnection(where: AccountWhereInput, orderBy: AccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AccountConnection!
+  otherAccountsConnection(where: OtherAccountWhereInput, orderBy: OtherAccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OtherAccountConnection!
+  paymentsConnection(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PaymentConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -348,6 +851,8 @@ type Query {
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   account(where: AccountSubscriptionWhereInput): AccountSubscriptionPayload
+  otherAccount(where: OtherAccountSubscriptionWhereInput): OtherAccountSubscriptionPayload
+  payment(where: PaymentSubscriptionWhereInput): PaymentSubscriptionPayload
 }
 
 type User implements Node {
