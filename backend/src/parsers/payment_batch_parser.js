@@ -1,4 +1,5 @@
-const processFile = require('../file_upload/process_file');
+const processFile = require("../file_upload/process_file");
+const runInSequence = require("../utils/sequence");
 
 const SEPARATOR = "\t";
 
@@ -7,60 +8,92 @@ class PaymentBatchParser {
     this.ctx = ctx;
     this.fileId = fileId;
     this.userId = userId;
-    this.account = null;
-    this.headers = [];
   }
 
   parse() {
-    processFile(this.fileId, (line, lineNumber) => {
-      if (lineNumber === 1) {
-        this.account = this.createOrUseExistingAccount(line, this.userId);
-      } else if (lineNumber === 2) {
-        //noop for empty line
-      } else if (lineNumber === 3) {
-        this.headers = line.split(SEPARATOR).map(header => header.toLowerCase());
-      } else {
-        this.createPayment(line);
+    let account = null;
+    let headers = null;
+    const lines = processFile(this.fileId).map(
+      (line, lineNumber) => previousPromise => {
+        if (lineNumber === 0) {
+          const iban = line.split(SEPARATOR)[1];
+          return this.createOrUseExistingAccount(iban, this.userId);
+        } else if (lineNumber === 1) {
+          if (!account) account = previousPromise;
+          return Promise.resolve(
+            line.split(SEPARATOR).map(header => header.toLowerCase())
+          );
+        } else {
+          if (!headers) headers = previousPromise;
+          return this.createPayment(headers, account, line);
+        }
+      }
+    );
+
+    runInSequence(lines);
+  }
+
+  async createOrUseExistingAccount(iban, userId = null) {
+    const account = await this.ctx.db.query.account({ where: { iban } });
+    if (account) return account;
+    return await this.ctx.db.mutation.createAccount({
+      data: {
+        iban,
+        user: {
+          connect: { id: userId }
+        }
       }
     });
   }
 
-  async createOrUseExistingAccount(line, userId) {
-    const iban = line.split(SEPARATOR)[1];
-    const account = await this.ctx.db.query.account({ where: { iban } })
-    if (account) return account;
-    return await this.ctx.db.mutation.createAccount(
-      {
-        data: {
-          iban,
-          user: {
-            connect: { id: userId }
-          }
-        }
+  async createOrUseExistingOtherAccount(iban, name) {
+    const otherAccountsByIban = await this.ctx.db.query.otherAccounts({
+      where: { iban }
+    });
+    if (otherAccountsByIban.length > 0) return otherAccountsByIban[0];
+    const otherAccountsByName = await this.ctx.db.query.otherAccounts({
+      where: { name }
+    });
+    if (otherAccountsByName.length > 0) return otherAccountsByName[0];
+
+    return await this.ctx.db.mutation.createOtherAccount({
+      data: {
+        iban,
+        name
       }
-    );
+    });
   }
 
-  async createPayment(line) {
-    if (line.trim().length === 0) return;
+  async createPayment(headers, account, line) {
     const payment = line.split(SEPARATOR).reduce((acc, cur, i) => {
       return {
         ...acc,
-        [this.headers[i]]: cur
+        [headers[i]]: cur
       };
     }, {});
-
-    return await this.ctx.db.mutation.createPayment(
-      {
+    const promise = this.createOrUseExistingOtherAccount(
+      payment["tilinumero"],
+      payment["saaja/maksaja"]
+    );
+    return promise.then(otherAccount => {
+      const paymentDate = payment["maksupäivä"]
+        .split(".")
+        .reverse()
+        .reduce((acc, cur) => acc + "-" + cur, "")
+        .slice(1);
+      return this.ctx.db.mutation.createPayment({
         data: {
-          amount: payment['määrä'],
-          payment_date: payment['maksupäivä'],
-          account: {
-            connect: { id: this.account.id }
+          amount: parseFloat(payment["määrä"].replace(",", ".")),
+          paymentDate,
+          usersAccount: {
+            connect: { id: account.id }
+          },
+          otherAccount: {
+            connect: { id: otherAccount.id }
           }
         }
-      }
-    );
+      });
+    });
   }
 }
 
