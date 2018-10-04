@@ -19,6 +19,7 @@ import Workspace from './components/workspace/workspace';
 import { getToken } from './utils/auth';
 import { PrivateRoute } from './utils/routing';
 
+import 'react-vis/dist/style.css';
 import './index.module.css';
 
 const uploadLink = createUploadLink({
