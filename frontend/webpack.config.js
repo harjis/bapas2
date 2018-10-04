@@ -54,8 +54,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [{ loader: 'postcss-loader' }],
-        exclude: [/node_modules/, /module\.css$/, /config\.css$/]
+        use: ['style-loader' , 'css-loader'],
+        exclude: [/module\.css$/, /config\.css$/]
       },
       {
         test: /module\.css$/,
