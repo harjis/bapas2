@@ -12,10 +12,10 @@ import Accounts from './components/accounts/accounts';
 import ErrorBoundary from './components/generic/error_boundary/error_boundary';
 import Header from './components/header/header';
 import LoginContainer from './components/login/login_container';
+import MainPage from './components/main_page/main_page';
 import RegisterContainer from './components/register/register';
 import SettingsContainer from './components/settings/settings';
 import UploadContainer from './components/upload/upload_container';
-import Workspace from './components/workspace/workspace';
 import { getToken } from './utils/auth';
 import { PrivateRoute } from './utils/routing';
 
@@ -50,7 +50,7 @@ ReactDOM.render(
         <ErrorBoundary>
           <Header />
           <Switch>
-            <PrivateRoute exact path="/" component={Workspace} />
+            <PrivateRoute exact path="/" component={MainPage} />
             <PrivateRoute path="/accounts" component={Accounts} />
             <PrivateRoute path="/settings" component={SettingsContainer} />
             <PrivateRoute path="/upload" component={UploadContainer} />
