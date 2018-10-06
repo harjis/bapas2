@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { RadialChart, Hint } from 'react-vis';
 
-import styles from './workspace.module.css';
+import styles from './main_page.module.css';
 
-export default class Workspace extends React.Component {
+export default class MainPage extends React.Component {
   state = {
     value: false
   };
