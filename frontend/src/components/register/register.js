@@ -8,7 +8,7 @@ import Button from 'src/components/generic/button/button';
 import { login } from 'src/utils/auth';
 
 import styles from './register.module.css';
-import Errors, { ErrorsHOC } from 'src/components/generic/errors/errors';
+import Errors, { withErrors } from 'src/components/generic/errors/errors';
 
 const Register = props => (
   <div className={styles.container}>
@@ -96,4 +96,4 @@ const CREATE_USER_MUTATION = gql`
   }
 `;
 
-export default compose(graphql(CREATE_USER_MUTATION), ErrorsHOC)(RegisterContainer);
+export default compose(graphql(CREATE_USER_MUTATION), withErrors)(RegisterContainer);

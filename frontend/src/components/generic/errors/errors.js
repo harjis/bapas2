@@ -13,7 +13,7 @@ Errors.propTypes = {
   errors: PropTypes.array.isRequired
 };
 
-export function ErrorsHOC(WrappedComponent) {
+export function withErrors(WrappedComponent) {
   return class extends React.Component {
     state = {
       errors: []
@@ -31,6 +31,17 @@ export function ErrorsHOC(WrappedComponent) {
           onClearErrors={this.handleClearErrors}
         />
       );
+    }
+  };
+}
+
+export function withErrorLogging(WrappedComponent) {
+  return class extends React.Component {
+    render() {
+      if (this.props.data.error) {
+        console.log(this.props.data.error.graphQLErrors, this.props.data.error.networkError);
+      }
+      return <WrappedComponent {...this.props} />;
     }
   };
 }

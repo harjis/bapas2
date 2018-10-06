@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { graphql, withApollo } from 'react-apollo';
 import { branch, compose } from 'recompose';
 
+import { withErrorLogging } from 'src/components/generic/errors/errors';
 import Loading from 'src/components/generic/loading/loading';
 import { isLoggedIn, logout } from 'src/utils/auth';
-import { CURRENT_USER } from "../../queries/user_queries";
+import { CURRENT_USER } from '../../queries/user_queries';
 
 import styles from './header.module.css';
 
@@ -72,4 +73,4 @@ class Header extends React.Component {
 }
 
 const NoopHOC = WrappedComponent => WrappedComponent;
-export default branch(isLoggedIn, compose(graphql(CURRENT_USER), withApollo), NoopHOC)(Header);
+export default branch(isLoggedIn, compose(graphql(CURRENT_USER), withApollo, withErrorLogging), NoopHOC)(Header);

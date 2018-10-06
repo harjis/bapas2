@@ -2,7 +2,7 @@ import * as React from 'react';
 import { compose } from 'recompose';
 import { graphql } from 'react-apollo/index';
 
-import Errors, { ErrorsHOC } from '../generic/errors/errors';
+import Errors, { withErrors } from '../generic/errors/errors';
 import Success from '../generic/success/success';
 import Upload from './upload';
 import Uploads from './uploads';
@@ -81,5 +81,5 @@ export default compose(
   graphql(DELETE_UPLOAD, { name: 'deleteUpload' }),
   graphql(GET_UPLOADS),
   graphql(PROCESS_UPLOAD, { name: 'processUpload' }),
-  ErrorsHOC
+  withErrors
 )(UploadContainer);
