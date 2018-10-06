@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { graphql } from 'react-apollo/index';
 
-import Errors, { ErrorsHOC } from 'src/components/generic/errors/errors';
+import Errors, { withErrors } from 'src/components/generic/errors/errors';
 import Login from './login';
 import { login } from 'src/utils/auth';
 
@@ -64,4 +64,4 @@ const LOGIN_USER = gql`
   }
 `;
 
-export default compose(graphql(LOGIN_USER), ErrorsHOC)(LoginContainer);
+export default compose(graphql(LOGIN_USER), withErrors)(LoginContainer);

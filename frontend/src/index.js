@@ -47,8 +47,8 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
       <React.Fragment>
-        <Header />
         <ErrorBoundary>
+          <Header />
           <Switch>
             <PrivateRoute exact path="/" component={Workspace} />
             <PrivateRoute path="/accounts" component={Accounts} />

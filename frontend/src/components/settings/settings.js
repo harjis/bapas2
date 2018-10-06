@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import { graphql } from 'react-apollo';
 
 import Button from 'src/components/generic/button/button';
-import Errors, { ErrorsHOC } from 'src/components/generic/errors/errors';
+import Errors, { withErrors } from 'src/components/generic/errors/errors';
 import Success from 'src/components/generic/success/success';
 import { CURRENT_USER, USER_MUTATION } from "../../queries/user_queries";
 
@@ -69,4 +69,4 @@ SettingsContainer.propTypes = {
   onClearErrors: PropsTypes.func.isRequired
 };
 
-export default compose(graphql(USER_MUTATION), ErrorsHOC)(SettingsContainer);
+export default compose(graphql(USER_MUTATION), withErrors)(SettingsContainer);
