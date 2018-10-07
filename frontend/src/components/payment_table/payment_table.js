@@ -17,10 +17,10 @@ const PaymentTable = props => (
         </TableRow>
       </TableHead>
       <TableBody>
-        {props.rows.map(row => (
+        {props.payments.map(row => (
           <TableRow key={row.id}>
             <TableCell component="th" scope="row">
-              {row.name}
+              {row.otherAccount.name}
             </TableCell>
             <TableCell numeric>{row.amount}</TableCell>
           </TableRow>
@@ -31,7 +31,7 @@ const PaymentTable = props => (
 );
 
 PaymentTable.propTypes = {
-  rows: PropTypes.array.isRequired
+  payments: PropTypes.array.isRequired
 };
 
 export default PaymentTable;

@@ -1,11 +1,13 @@
 # import Account from "./generated/prisma.graphql"
 # import AuthPayload from "./generated/prisma.graphql"
+# import Payment from "./generated/prisma.graphql"
 # import User from "./generated/prisma.graphql"
 
 type Query {
   accounts: [Account!]!
   users: [User!]!
   currentUser: User!
+  payments: [Payment!]!
   uploads: [File]
 }
 
