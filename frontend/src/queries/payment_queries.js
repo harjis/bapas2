@@ -1,13 +1,13 @@
 import gql from 'graphql-tag';
 
 export const GET_PAYMENTS = gql`
-  query {
-    payments {
-      id,
-      amount,
-      paymentDate,
+  query Payments($orderBy: PaymentOrderByInput) {
+    payments(orderBy: $orderBy) {
+      id
+      amount
+      paymentDate
       otherAccount {
-        id,
+        id
         name
       }
     }
