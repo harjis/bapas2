@@ -2,11 +2,9 @@ import * as React from 'react';
 
 import Header from 'src/components/generic/header/header';
 import PaymentChart from 'src/components/payment_chart/payment_chart';
-import PaymentTable from 'src/components/payment_table/payment_table';
+import PaymentTableContainer from 'src/components/payment_table/payment_table_container';
 
 import styles from './main_page.module.css';
-
-const rows = [{ id: 1, name: 'S-market', amount: 1 }, { id: 2, name: 'K-kauppa', amount: 2 }];
 
 const MainPage = () => (
   <div className={styles.container}>
@@ -17,7 +15,7 @@ const MainPage = () => (
       <PaymentChart />
     </div>
     <div className={styles.containerRow}>
-      <PaymentTable rows={rows} />
+      <PaymentTableContainer />
     </div>
   </div>
 );

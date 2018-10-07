@@ -1,24 +1,13 @@
-const { getUserId } = require('../utils');
-const { db } = require('../file_upload/init');
+const { AccountQueries } = require('./queries/account_queries');
+const { PaymentQueries } = require('./queries/payment_queries');
+const { UploadQueries } = require('./queries/upload_queries');
+const { UserQueries } = require('./queries/user_queries');
 
 const Query = {
-    accounts(parent, args, ctx, info) {
-      getUserId(ctx);
-      return ctx.db.query.accounts({}, info);
-    },
-    currentUser(parent, args, ctx, info) {
-      const id = getUserId(ctx);
-      return ctx.db.query.user({ where: { id } }, info);
-    },
-    users(parent, args, ctx, info) {
-      getUserId(ctx);
-      return ctx.db.query.users({}, info);
-    },
-    uploads(parent, args, ctx) {
-      getUserId(ctx);
-      return db.get('uploads').value();
-    }
-  }
-;
+  ...AccountQueries,
+  ...PaymentQueries,
+  ...UploadQueries,
+  ...UserQueries,
+};
 
 module.exports = { Query };
