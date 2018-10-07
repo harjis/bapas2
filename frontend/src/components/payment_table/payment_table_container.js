@@ -14,11 +14,16 @@ class PaymentTableContainer extends React.Component {
   };
 
   handleRequestSort = (event, property) => {
-    const orderBy = property;
+    let orderBy = property;
     let order = 'desc';
 
     if (this.state.orderBy === property && this.state.order === 'desc') {
       order = 'asc';
+    }
+
+    if (orderBy === 'name') {
+      console.log('Ordering by related fields is not yet supported');
+      orderBy = 'amount';
     }
 
     this.setState({ order, orderBy, orderByGQL: `${orderBy}_${order.toUpperCase()}` });
