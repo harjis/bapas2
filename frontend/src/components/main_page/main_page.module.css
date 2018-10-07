@@ -1,6 +1,14 @@
+@import 'config/styles/variables.css';
+
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin: var(--gutter);
 }
+
+.containerRow {
+  margin-bottom: var(--gutter);
+}
+

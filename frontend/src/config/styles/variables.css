@@ -12,4 +12,6 @@
   --danger: rgba(244, 135, 126, 1);
   --success: rgba(169, 244, 177, 1);
   --borderRadius: 3px;
+
+  --fontLarge: 2em;
 }
