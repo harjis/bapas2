@@ -1,0 +1,6 @@
+@import 'config/styles/variables.css';
+
+.container {
+  font-weight: bold;
+  font-size: var(--fontLarge);
+}
