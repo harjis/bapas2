@@ -10,6 +10,7 @@ import SortableTableHead from './sortable_table_head';
 
 const headers = [
   { id: 'name', numeric: false, label: 'Name' },
+  { id: 'paymentDate', numeric: false, label: 'Payment date' },
   { id: 'amount', numeric: true, label: 'Amount' }
 ];
 
@@ -28,6 +29,7 @@ const PaymentTable = props => (
             <TableCell component="th" scope="row">
               {row.otherAccount.name}
             </TableCell>
+            <TableCell>{row.paymentDate}</TableCell>
             <TableCell numeric>{row.amount}</TableCell>
           </TableRow>
         ))}

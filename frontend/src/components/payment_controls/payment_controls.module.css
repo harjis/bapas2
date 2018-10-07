@@ -1,0 +1,9 @@
+@import 'config/styles/variables.css';
+
+.container {
+  display: flex;
+}
+
+.selectContainer {
+  margin: var(--gutter);
+}
