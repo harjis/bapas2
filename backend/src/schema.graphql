@@ -1,5 +1,4 @@
 # import Account from "./generated/prisma.graphql"
-# import AuthPayload from "./generated/prisma.graphql"
 # import Payment from "./generated/prisma.graphql"
 # import User from "./generated/prisma.graphql"
 # import PaymentOrderByInput from "./generated/prisma.graphql"
@@ -28,12 +27,6 @@ type Mutation {
 type AuthPayload {
   token: String!
   user: User!
-}
-
-type User {
-  id: ID!
-  email: String!
-  name: String!
 }
 
 scalar Upload
