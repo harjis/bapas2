@@ -13,3 +13,11 @@ export const GET_PAYMENTS = gql`
     }
   }
 `;
+
+export const GET_PAYMENT_DATES = gql`
+  query {
+    payments {
+      paymentDate
+    }
+  }
+`;

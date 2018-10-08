@@ -20,8 +20,10 @@ const PaymentControls = props => (
           id: 'month-native-simple'
         }}
       >
-        {props.availableMonths.map(availableMonth => (
-          <option value={availableMonth}>{availableMonth}</option>
+        {props.monthsByYear[props.year].map(availableMonth => (
+          <option key={availableMonth} value={availableMonth}>
+            {availableMonth}
+          </option>
         ))}
       </Select>
     </FormControl>
@@ -37,8 +39,10 @@ const PaymentControls = props => (
           id: 'year-native-simple'
         }}
       >
-        {props.availableYears.map(availableYear => (
-          <option value={availableYear}>{availableYear}</option>
+        {Object.keys(props.monthsByYear).map(availableYear => (
+          <option key={availableYear} value={availableYear}>
+            {availableYear}
+          </option>
         ))}
       </Select>
     </FormControl>
@@ -46,9 +50,8 @@ const PaymentControls = props => (
 );
 
 PaymentControls.propTypes = {
-  availableMonths: PropTypes.array.isRequired,
-  availableYears: PropTypes.array.isRequired,
-  month: PropTypes.string.isRequired,
+  month: PropTypes.number.isRequired,
+  monthsByYear: PropTypes.object.isRequired,
   onSelectMonth: PropTypes.func.isRequired,
   onSelectYear: PropTypes.func.isRequired,
   year: PropTypes.string.isRequired
