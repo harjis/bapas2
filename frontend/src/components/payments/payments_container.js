@@ -53,6 +53,7 @@ export default class PaymentsContainer extends React.Component {
                 if (errorDates) return <Errors errors={error} />;
                 if (errorPayments) return <Errors errors={errorPayments} />;
 
+
                 const monthsByYear = getMonthsByYear(dataDates.payments);
                 const year = Object.keys(monthsByYear)[0];
                 return (
@@ -92,14 +93,16 @@ export default class PaymentsContainer extends React.Component {
 const getMonthsByYear = dates =>
   dates.reduce((acc, cur) => {
     const date = new Date(cur.paymentDate);
-    if (!acc[date.getFullYear()]) {
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    if (!acc[year]) {
       return {
         ...acc,
-        [date.getFullYear()]: [date.getMonth()]
+        [year]: [month]
       };
     }
     return {
       ...acc,
-      [date.getFullYear()]: [...new Set(acc[date.getFullYear()].concat(date.getMonth()))]
+      [year]: [...new Set(acc[year].concat(month))]
     };
   }, {});
