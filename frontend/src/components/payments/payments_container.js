@@ -12,9 +12,11 @@ import styles from '../main_page/main_page.module.css';
 
 export default class PaymentsContainer extends React.Component {
   state = {
+    month: 5,
     order: 'asc',
     orderBy: 'amount',
-    orderByGQL: 'amount_ASC'
+    orderByGQL: 'amount_ASC',
+    year: 2016
   };
 
   handleRequestSort = (event, property) => {
@@ -38,7 +40,13 @@ export default class PaymentsContainer extends React.Component {
       <React.Fragment>
         <Query query={GET_PAYMENT_DATES}>
           {({ loading: loadingDates, error: errorDates, data: dataDates }) => (
-            <Query variables={{ orderBy: this.state.orderByGQL }} query={GET_PAYMENTS}>
+            <Query
+              variables={{
+                orderBy: this.state.orderByGQL,
+                where: { paymentDate: `${this.state.year}-${this.state.month}` }
+              }}
+              query={GET_PAYMENTS}
+            >
               {({ loading: loadingPayments, error: errorPayments, data: dataPayments }) => {
                 if (loadingDates || loadingPayments) return <Loading />;
 
@@ -51,11 +59,11 @@ export default class PaymentsContainer extends React.Component {
                   <React.Fragment>
                     <div className={styles.containerRow}>
                       <PaymentControls
-                        month={monthsByYear[year][0]}
+                        month={this.state.month}
                         monthsByYear={monthsByYear}
-                        onSelectMonth={() => {}}
-                        onSelectYear={() => {}}
-                        year={year}
+                        onSelectMonth={month => this.setState({ month })}
+                        onSelectYear={year => this.setState({ year })}
+                        year={this.state.year}
                       />
                     </div>
                     <div className={styles.containerRow}>
