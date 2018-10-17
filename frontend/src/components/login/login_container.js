@@ -23,9 +23,9 @@ class LoginContainer extends React.Component {
         variables: { email, password }
       })
       .then(response => {
-        const id = response.data.login.user.id;
+        const { id, name } = response.data.login.user;
         const token = response.data.login.token;
-        login(id, token);
+        login(id, name, token);
 
         this.props.history.push('/');
       })
@@ -59,6 +59,7 @@ const LOGIN_USER = gql`
       token
       user {
         id
+        name
       }
     }
   }

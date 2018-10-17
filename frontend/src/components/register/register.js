@@ -55,9 +55,9 @@ class RegisterContainer extends React.Component {
         variables: { email, name, password }
       })
       .then(response => {
-        const id = response.data.createUser.user.id;
+        const { id, name } = response.data.createUser.user;
         const token = response.data.createUser.token;
-        login(id, token);
+        login(id, name, token);
         this.props.history.push('/');
       })
       .catch(error => {

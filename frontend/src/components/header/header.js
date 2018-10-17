@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { graphql, withApollo } from 'react-apollo';
-import { branch, compose } from 'recompose';
+import { withApollo } from 'react-apollo';
+import { branch } from 'recompose';
 
-import { withErrorLogging } from 'src/components/generic/errors/errors';
-import Loading from 'src/components/generic/loading/loading';
-import { isLoggedIn, logout } from 'src/utils/auth';
-import { CURRENT_USER } from '../../queries/user_queries';
+import { getUserName, isLoggedIn, logout } from 'src/utils/auth';
 
 import styles from './header.module.css';
 
@@ -42,15 +39,10 @@ class Header extends React.Component {
 
   get rightSideItems() {
     if (isLoggedIn()) {
-      const SettingsComponent = this.props.data.loading ? (
-        <Loading />
-      ) : (
-        <div className={styles.item}>{this.props.data.currentUser.name}</div>
-      );
       return (
         <div className={styles.rightItems}>
           <Link key={'settings'} to={'/settings'}>
-            {SettingsComponent}
+            <div className={styles.item}>{getUserName()}</div>
           </Link>
           <Link onClick={this.logout} key={'logout'} to={'/'}>
             <div className={styles.item}>Logout</div>
@@ -73,4 +65,4 @@ class Header extends React.Component {
 }
 
 const NoopHOC = WrappedComponent => WrappedComponent;
-export default branch(isLoggedIn, compose(graphql(CURRENT_USER), withApollo, withErrorLogging), NoopHOC)(Header);
+export default branch(isLoggedIn, withApollo, NoopHOC)(Header);
