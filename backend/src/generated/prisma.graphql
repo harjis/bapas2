@@ -1,11 +1,11 @@
 # source: http://localhost:4466
-# timestamp: Fri Jun 29 2018 12:40:34 GMT+0300 (Eastern European Summer Time)
+# timestamp: Wed Oct 17 2018 18:25:47 GMT+0300 (Eastern European Summer Time)
 
 type Account implements Node {
   id: ID!
   name: String
   iban: String!
-  user(where: UserWhereInput): User!
+  user: User!
 }
 
 """A connection to a list of items."""
@@ -109,13 +109,13 @@ input AccountSubscriptionWhereInput {
 input AccountUpdateDataInput {
   name: String
   iban: String
-  user: UserUpdateOneWithoutAccountsInput
+  user: UserUpdateOneRequiredWithoutAccountsInput
 }
 
 input AccountUpdateInput {
   name: String
   iban: String
-  user: UserUpdateOneWithoutAccountsInput
+  user: UserUpdateOneRequiredWithoutAccountsInput
 }
 
 input AccountUpdateManyWithoutUserInput {
@@ -127,10 +127,9 @@ input AccountUpdateManyWithoutUserInput {
   upsert: [AccountUpsertWithWhereUniqueWithoutUserInput!]
 }
 
-input AccountUpdateOneInput {
+input AccountUpdateOneRequiredInput {
   create: AccountCreateInput
   connect: AccountWhereUniqueInput
-  delete: Boolean
   update: AccountUpdateDataInput
   upsert: AccountUpsertNestedInput
 }
@@ -324,29 +323,29 @@ scalar Long
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
-  createAccount(data: AccountCreateInput!): Account!
-  createOtherAccount(data: OtherAccountCreateInput!): OtherAccount!
   createPayment(data: PaymentCreateInput!): Payment!
+  createOtherAccount(data: OtherAccountCreateInput!): OtherAccount!
+  createAccount(data: AccountCreateInput!): Account!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateAccount(data: AccountUpdateInput!, where: AccountWhereUniqueInput!): Account
-  updateOtherAccount(data: OtherAccountUpdateInput!, where: OtherAccountWhereUniqueInput!): OtherAccount
   updatePayment(data: PaymentUpdateInput!, where: PaymentWhereUniqueInput!): Payment
+  updateOtherAccount(data: OtherAccountUpdateInput!, where: OtherAccountWhereUniqueInput!): OtherAccount
+  updateAccount(data: AccountUpdateInput!, where: AccountWhereUniqueInput!): Account
   deleteUser(where: UserWhereUniqueInput!): User
-  deleteAccount(where: AccountWhereUniqueInput!): Account
-  deleteOtherAccount(where: OtherAccountWhereUniqueInput!): OtherAccount
   deletePayment(where: PaymentWhereUniqueInput!): Payment
+  deleteOtherAccount(where: OtherAccountWhereUniqueInput!): OtherAccount
+  deleteAccount(where: AccountWhereUniqueInput!): Account
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  upsertAccount(where: AccountWhereUniqueInput!, create: AccountCreateInput!, update: AccountUpdateInput!): Account!
-  upsertOtherAccount(where: OtherAccountWhereUniqueInput!, create: OtherAccountCreateInput!, update: OtherAccountUpdateInput!): OtherAccount!
   upsertPayment(where: PaymentWhereUniqueInput!, create: PaymentCreateInput!, update: PaymentUpdateInput!): Payment!
+  upsertOtherAccount(where: OtherAccountWhereUniqueInput!, create: OtherAccountCreateInput!, update: OtherAccountUpdateInput!): OtherAccount!
+  upsertAccount(where: AccountWhereUniqueInput!, create: AccountCreateInput!, update: AccountUpdateInput!): Account!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
-  updateManyAccounts(data: AccountUpdateInput!, where: AccountWhereInput): BatchPayload!
-  updateManyOtherAccounts(data: OtherAccountUpdateInput!, where: OtherAccountWhereInput): BatchPayload!
   updateManyPayments(data: PaymentUpdateInput!, where: PaymentWhereInput): BatchPayload!
+  updateManyOtherAccounts(data: OtherAccountUpdateInput!, where: OtherAccountWhereInput): BatchPayload!
+  updateManyAccounts(data: AccountUpdateInput!, where: AccountWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  deleteManyAccounts(where: AccountWhereInput): BatchPayload!
-  deleteManyOtherAccounts(where: OtherAccountWhereInput): BatchPayload!
   deleteManyPayments(where: PaymentWhereInput): BatchPayload!
+  deleteManyOtherAccounts(where: OtherAccountWhereInput): BatchPayload!
+  deleteManyAccounts(where: AccountWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -464,10 +463,9 @@ input OtherAccountUpdateInput {
   iban: String
 }
 
-input OtherAccountUpdateOneInput {
+input OtherAccountUpdateOneRequiredInput {
   create: OtherAccountCreateInput
   connect: OtherAccountWhereUniqueInput
-  delete: Boolean
   update: OtherAccountUpdateDataInput
   upsert: OtherAccountUpsertNestedInput
 }
@@ -631,8 +629,8 @@ type Payment implements Node {
   id: ID!
   amount: Float!
   paymentDate: DateTime!
-  usersAccount(where: AccountWhereInput): Account!
-  otherAccount(where: OtherAccountWhereInput): OtherAccount!
+  usersAccount: Account!
+  otherAccount: OtherAccount!
 }
 
 """A connection to a list of items."""
@@ -722,8 +720,8 @@ input PaymentSubscriptionWhereInput {
 input PaymentUpdateInput {
   amount: Float
   paymentDate: DateTime
-  usersAccount: AccountUpdateOneInput
-  otherAccount: OtherAccountUpdateOneInput
+  usersAccount: AccountUpdateOneRequiredInput
+  otherAccount: OtherAccountUpdateOneRequiredInput
 }
 
 input PaymentWhereInput {
@@ -829,17 +827,17 @@ input PaymentWhereUniqueInput {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  accounts(where: AccountWhereInput, orderBy: AccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Account]!
-  otherAccounts(where: OtherAccountWhereInput, orderBy: OtherAccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OtherAccount]!
   payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment]!
+  otherAccounts(where: OtherAccountWhereInput, orderBy: OtherAccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OtherAccount]!
+  accounts(where: AccountWhereInput, orderBy: AccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Account]!
   user(where: UserWhereUniqueInput!): User
-  account(where: AccountWhereUniqueInput!): Account
-  otherAccount(where: OtherAccountWhereUniqueInput!): OtherAccount
   payment(where: PaymentWhereUniqueInput!): Payment
+  otherAccount(where: OtherAccountWhereUniqueInput!): OtherAccount
+  account(where: AccountWhereUniqueInput!): Account
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  accountsConnection(where: AccountWhereInput, orderBy: AccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AccountConnection!
-  otherAccountsConnection(where: OtherAccountWhereInput, orderBy: OtherAccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OtherAccountConnection!
   paymentsConnection(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PaymentConnection!
+  otherAccountsConnection(where: OtherAccountWhereInput, orderBy: OtherAccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OtherAccountConnection!
+  accountsConnection(where: AccountWhereInput, orderBy: AccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AccountConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -850,9 +848,9 @@ type Query {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  account(where: AccountSubscriptionWhereInput): AccountSubscriptionPayload
-  otherAccount(where: OtherAccountSubscriptionWhereInput): OtherAccountSubscriptionPayload
   payment(where: PaymentSubscriptionWhereInput): PaymentSubscriptionPayload
+  otherAccount(where: OtherAccountSubscriptionWhereInput): OtherAccountSubscriptionPayload
+  account(where: AccountSubscriptionWhereInput): AccountSubscriptionPayload
 }
 
 type User implements Node {
@@ -968,10 +966,9 @@ input UserUpdateInput {
   accounts: AccountUpdateManyWithoutUserInput
 }
 
-input UserUpdateOneWithoutAccountsInput {
+input UserUpdateOneRequiredWithoutAccountsInput {
   create: UserCreateWithoutAccountsInput
   connect: UserWhereUniqueInput
-  delete: Boolean
   update: UserUpdateWithoutAccountsDataInput
   upsert: UserUpsertWithoutAccountsInput
 }
