@@ -1,11 +1,20 @@
-const { Query } = require('./Query');
-const { account } = require('./Mutation/account');
-const { auth } = require('./Mutation/auth');
-const file = require('./Mutation/file');
+const { account } = require('./mutations/account');
+const { auth } = require('./mutations/auth');
+const file = require('./mutations/file');
 const { AuthPayload } = require('./AuthPayload');
 
+const { AccountQueries } = require('./queries/account_queries');
+const { PaymentQueries } = require('./queries/payment_queries');
+const { UploadQueries } = require('./queries/upload_queries');
+const { UserQueries } = require('./queries/user_queries');
+
 module.exports = {
-  Query,
+  Query: {
+    ...AccountQueries,
+    ...PaymentQueries,
+    ...UploadQueries,
+    ...UserQueries,
+  },
   Mutation: {
     ...account,
     ...auth,
