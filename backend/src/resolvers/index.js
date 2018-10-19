@@ -1,7 +1,6 @@
 const { account } = require('./mutations/account');
 const { auth } = require('./mutations/auth');
 const file = require('./mutations/file');
-const { AuthPayload } = require('./AuthPayload');
 
 const { AccountQueries } = require('./queries/account_queries');
 const { PaymentQueries } = require('./queries/payment_queries');
@@ -19,6 +18,5 @@ module.exports = {
     ...account,
     ...auth,
     ...file
-  },
-  AuthPayload
+  }
 };
