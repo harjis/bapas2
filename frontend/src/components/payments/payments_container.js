@@ -53,9 +53,11 @@ export default class PaymentsContainer extends React.Component {
                 if (errorDates) return <Errors errors={error} />;
                 if (errorPayments) return <Errors errors={errorPayments} />;
 
+                if (dataPayments.payments.length === 0 || dataDates.payments.length === 0) {
+                  return 'No payments';
+                }
 
                 const monthsByYear = getMonthsByYear(dataDates.payments);
-                const year = Object.keys(monthsByYear)[0];
                 return (
                   <React.Fragment>
                     <div className={styles.containerRow}>
