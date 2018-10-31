@@ -65,9 +65,17 @@ ReactDOM.render(
                 <Header currentUser={currentUser} />
                 <Switch>
                   <PrivateRoute currentUser={currentUser} exact path="/" component={MainPage} />
-                  <PrivateRoute path="/accounts" component={Accounts} />
-                  <PrivateRoute path="/settings" component={SettingsContainer} />
-                  <PrivateRoute path="/upload" component={UploadContainer} />
+                  <PrivateRoute currentUser={currentUser} path="/accounts" component={Accounts} />
+                  <PrivateRoute
+                    currentUser={currentUser}
+                    path="/settings"
+                    component={SettingsContainer}
+                  />
+                  <PrivateRoute
+                    currentUser={currentUser}
+                    path="/upload"
+                    component={UploadContainer}
+                  />
                   <Route path="/register" component={RegisterContainer} />
                   <Route path="/login" component={LoginContainer} />
                 </Switch>
