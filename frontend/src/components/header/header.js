@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { withApollo } from 'react-apollo';
 import { branch } from 'recompose';
 
-import { getUserName, isLoggedIn, logout } from 'src/utils/auth';
+import { isLoggedIn, logout } from 'src/utils/auth';
 
 import styles from './header.module.css';
 
@@ -38,11 +38,11 @@ class Header extends React.Component {
   }
 
   get rightSideItems() {
-    if (isLoggedIn()) {
+    if (isLoggedIn() && this.props.currentUser) {
       return (
         <div className={styles.rightItems}>
           <Link key={'settings'} to={'/settings'}>
-            <div className={styles.item}>{getUserName()}</div>
+            <div className={styles.item}>{this.props.currentUser.name}</div>
           </Link>
           <Link onClick={this.logout} key={'logout'} to={'/'}>
             <div className={styles.item}>Logout</div>

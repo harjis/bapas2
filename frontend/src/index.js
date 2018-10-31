@@ -1,14 +1,16 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloClient } from 'apollo-client';
+import { ApolloLink } from 'apollo-link';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ApolloLink } from 'apollo-link';
 import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { onError } from 'apollo-link-error';
 import { setContext } from 'apollo-link-context';
 
 import Accounts from './components/accounts/accounts';
+import CurrentUser from 'src/components/current_user/current_user';
 import ErrorBoundary from './components/generic/error_boundary/error_boundary';
 import Header from './components/header/header';
 import LoginContainer from './components/login/login_container';
@@ -16,7 +18,7 @@ import MainPage from './components/main_page/main_page';
 import RegisterContainer from './components/register/register';
 import SettingsContainer from './components/settings/settings';
 import UploadContainer from './components/upload/upload_container';
-import { getToken } from './utils/auth';
+import { getToken, logout } from './utils/auth';
 import { PrivateRoute } from './utils/routing';
 
 import 'react-vis/dist/style.css';
@@ -36,7 +38,15 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const link = ApolloLink.from([authLink, uploadLink]);
+const resetToken = onError(({ graphQLErrors }) => {
+  // This is pretty horrible
+  if (graphQLErrors && graphQLErrors.some(error => error.message === 'Not authorized')) {
+    logout();
+  }
+});
+const authFlowLink = authLink.concat(resetToken);
+
+const link = ApolloLink.from([authFlowLink, uploadLink]);
 
 const client = new ApolloClient({
   link,
@@ -48,15 +58,29 @@ ReactDOM.render(
     <Router>
       <React.Fragment>
         <ErrorBoundary>
-          <Header />
-          <Switch>
-            <PrivateRoute exact path="/" component={MainPage} />
-            <PrivateRoute path="/accounts" component={Accounts} />
-            <PrivateRoute path="/settings" component={SettingsContainer} />
-            <PrivateRoute path="/upload" component={UploadContainer} />
-            <Route path="/register" component={RegisterContainer} />
-            <Route path="/login" component={LoginContainer} />
-          </Switch>
+          <CurrentUser>
+            {currentUser => (
+              <React.Fragment>
+                <Header currentUser={currentUser} />
+                <Switch>
+                  <PrivateRoute currentUser={currentUser} exact path="/" component={MainPage} />
+                  <PrivateRoute currentUser={currentUser} path="/accounts" component={Accounts} />
+                  <PrivateRoute
+                    currentUser={currentUser}
+                    path="/settings"
+                    component={SettingsContainer}
+                  />
+                  <PrivateRoute
+                    currentUser={currentUser}
+                    path="/upload"
+                    component={UploadContainer}
+                  />
+                  <Route path="/register" component={RegisterContainer} />
+                  <Route path="/login" component={LoginContainer} />
+                </Switch>
+              </React.Fragment>
+            )}
+          </CurrentUser>
         </ErrorBoundary>
       </React.Fragment>
     </Router>

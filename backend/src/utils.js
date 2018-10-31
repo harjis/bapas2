@@ -17,4 +17,4 @@ class AuthError extends Error {
   }
 }
 
-module.exports = { getUserId };
+module.exports = { getUserId, AuthError };

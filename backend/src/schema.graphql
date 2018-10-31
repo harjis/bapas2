@@ -7,7 +7,7 @@
 type Query {
   accounts: [Account!]!
   users: [User!]!
-  currentUser: User!
+  currentUser: User
   payments(orderBy: PaymentOrderByInput, where: PaymentWhereInput): [Payment!]!
   uploads: [File]
 }

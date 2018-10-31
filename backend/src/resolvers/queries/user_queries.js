@@ -1,8 +1,14 @@
-const { getUserId } = require('../../utils');
+const { AuthError, getUserId } = require('../../utils');
 
 const UserQueries = {
-  currentUser(parent, args, ctx, info) {
+  async currentUser(parent, args, ctx, info) {
     const id = getUserId(ctx);
+
+    const user = await ctx.db.query.user({ where: { id } }, info);
+    if (!user) {
+      throw new AuthError();
+    }
+
     return ctx.db.query.user({ where: { id } }, info);
   },
   users(parent, args, ctx, info) {
