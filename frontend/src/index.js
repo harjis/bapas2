@@ -38,8 +38,9 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const resetToken = onError(({ graphQLErrors }) => {
+const resetToken = onError(({ graphQLErrors, operation }) => {
   // This is pretty horrible
+  console.log(operation);
   if (graphQLErrors && graphQLErrors.some(error => error.message === 'Not authorized')) {
     logout();
   }
@@ -58,15 +59,21 @@ ReactDOM.render(
     <Router>
       <React.Fragment>
         <ErrorBoundary>
-          <CurrentUser>{currentUser => <Header currentUser={currentUser} />}</CurrentUser>
-          <Switch>
-            <PrivateRoute exact path="/" component={MainPage} />
-            <PrivateRoute path="/accounts" component={Accounts} />
-            <PrivateRoute path="/settings" component={SettingsContainer} />
-            <PrivateRoute path="/upload" component={UploadContainer} />
-            <Route path="/register" component={RegisterContainer} />
-            <Route path="/login" component={LoginContainer} />
-          </Switch>
+          <CurrentUser>
+            {currentUser => (
+              <React.Fragment>
+                <Header currentUser={currentUser} />
+                <Switch>
+                  <PrivateRoute currentUser={currentUser} exact path="/" component={MainPage} />
+                  <PrivateRoute path="/accounts" component={Accounts} />
+                  <PrivateRoute path="/settings" component={SettingsContainer} />
+                  <PrivateRoute path="/upload" component={UploadContainer} />
+                  <Route path="/register" component={RegisterContainer} />
+                  <Route path="/login" component={LoginContainer} />
+                </Switch>
+              </React.Fragment>
+            )}
+          </CurrentUser>
         </ErrorBoundary>
       </React.Fragment>
     </Router>

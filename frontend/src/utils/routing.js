@@ -3,11 +3,11 @@ import { Redirect, Route } from 'react-router-dom';
 
 import { isLoggedIn } from './auth';
 
-export const PrivateRoute = ({ component: Component, ...rest }) => (
+export const PrivateRoute = ({ component: Component, currentUser, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isLoggedIn() ? (
+      isLoggedIn() && currentUser ? (
         <Component {...props} />
       ) : (
         <Redirect
