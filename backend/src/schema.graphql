@@ -3,13 +3,14 @@
 # import User from "./generated/prisma.graphql"
 # import PaymentOrderByInput from "./generated/prisma.graphql"
 # import PaymentWhereInput from "./generated/prisma.graphql"
+# import Upload from "./generated/prisma.graphql"
 
 type Query {
   accounts: [Account!]!
   users: [User!]!
   currentUser: User
   payments(orderBy: PaymentOrderByInput, where: PaymentWhereInput): [Payment!]!
-  uploads: [File]
+  uploads: [Upload]
 }
 
 type Mutation {
@@ -19,8 +20,8 @@ type Mutation {
   deleteUser(id: ID!): User!
   updateUser(name: String!): User!
 
-  addUpload (file: Upload!): File!
-  multipleUpload (files: [Upload!]!): [File!]!
+  addUpload (file: File!): Upload!
+  multipleUpload (files: [File!]!): [Upload!]!
   deleteUpload(id: ID!): ID!
   processUpload(id: ID!): ID
 }
@@ -30,12 +31,4 @@ type AuthPayload {
   user: User!
 }
 
-scalar Upload
-
-type File {
-  id: ID!
-  path: String!
-  filename: String!
-  mimetype: String!
-  encoding: String!
-}
+scalar File

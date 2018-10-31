@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Wed Oct 17 2018 18:25:47 GMT+0300 (Eastern European Summer Time)
+# timestamp: Wed Oct 31 2018 22:47:52 GMT+0200 (Eastern European Standard Time)
 
 type Account implements Node {
   id: ID!
@@ -304,6 +304,10 @@ type AggregatePayment {
   count: Int!
 }
 
+type AggregateUpload {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -324,26 +328,32 @@ scalar Long
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createPayment(data: PaymentCreateInput!): Payment!
+  createUpload(data: UploadCreateInput!): Upload!
   createOtherAccount(data: OtherAccountCreateInput!): OtherAccount!
   createAccount(data: AccountCreateInput!): Account!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updatePayment(data: PaymentUpdateInput!, where: PaymentWhereUniqueInput!): Payment
+  updateUpload(data: UploadUpdateInput!, where: UploadWhereUniqueInput!): Upload
   updateOtherAccount(data: OtherAccountUpdateInput!, where: OtherAccountWhereUniqueInput!): OtherAccount
   updateAccount(data: AccountUpdateInput!, where: AccountWhereUniqueInput!): Account
   deleteUser(where: UserWhereUniqueInput!): User
   deletePayment(where: PaymentWhereUniqueInput!): Payment
+  deleteUpload(where: UploadWhereUniqueInput!): Upload
   deleteOtherAccount(where: OtherAccountWhereUniqueInput!): OtherAccount
   deleteAccount(where: AccountWhereUniqueInput!): Account
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertPayment(where: PaymentWhereUniqueInput!, create: PaymentCreateInput!, update: PaymentUpdateInput!): Payment!
+  upsertUpload(where: UploadWhereUniqueInput!, create: UploadCreateInput!, update: UploadUpdateInput!): Upload!
   upsertOtherAccount(where: OtherAccountWhereUniqueInput!, create: OtherAccountCreateInput!, update: OtherAccountUpdateInput!): OtherAccount!
   upsertAccount(where: AccountWhereUniqueInput!, create: AccountCreateInput!, update: AccountUpdateInput!): Account!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyPayments(data: PaymentUpdateInput!, where: PaymentWhereInput): BatchPayload!
+  updateManyUploads(data: UploadUpdateInput!, where: UploadWhereInput): BatchPayload!
   updateManyOtherAccounts(data: OtherAccountUpdateInput!, where: OtherAccountWhereInput): BatchPayload!
   updateManyAccounts(data: AccountUpdateInput!, where: AccountWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyPayments(where: PaymentWhereInput): BatchPayload!
+  deleteManyUploads(where: UploadWhereInput): BatchPayload!
   deleteManyOtherAccounts(where: OtherAccountWhereInput): BatchPayload!
   deleteManyAccounts(where: AccountWhereInput): BatchPayload!
 }
@@ -828,14 +838,17 @@ input PaymentWhereUniqueInput {
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment]!
+  uploads(where: UploadWhereInput, orderBy: UploadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Upload]!
   otherAccounts(where: OtherAccountWhereInput, orderBy: OtherAccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OtherAccount]!
   accounts(where: AccountWhereInput, orderBy: AccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Account]!
   user(where: UserWhereUniqueInput!): User
   payment(where: PaymentWhereUniqueInput!): Payment
+  upload(where: UploadWhereUniqueInput!): Upload
   otherAccount(where: OtherAccountWhereUniqueInput!): OtherAccount
   account(where: AccountWhereUniqueInput!): Account
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   paymentsConnection(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PaymentConnection!
+  uploadsConnection(where: UploadWhereInput, orderBy: UploadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UploadConnection!
   otherAccountsConnection(where: OtherAccountWhereInput, orderBy: OtherAccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OtherAccountConnection!
   accountsConnection(where: AccountWhereInput, orderBy: AccountOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AccountConnection!
 
@@ -849,8 +862,293 @@ type Query {
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   payment(where: PaymentSubscriptionWhereInput): PaymentSubscriptionPayload
+  upload(where: UploadSubscriptionWhereInput): UploadSubscriptionPayload
   otherAccount(where: OtherAccountSubscriptionWhereInput): OtherAccountSubscriptionPayload
   account(where: AccountSubscriptionWhereInput): AccountSubscriptionPayload
+}
+
+type Upload implements Node {
+  id: ID!
+  hasBeenProcessed: Boolean!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+
+"""A connection to a list of items."""
+type UploadConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UploadEdge]!
+  aggregate: AggregateUpload!
+}
+
+input UploadCreateInput {
+  hasBeenProcessed: Boolean!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+
+"""An edge in a connection."""
+type UploadEdge {
+  """The item at the end of the edge."""
+  node: Upload!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum UploadOrderByInput {
+  id_ASC
+  id_DESC
+  hasBeenProcessed_ASC
+  hasBeenProcessed_DESC
+  filename_ASC
+  filename_DESC
+  mimetype_ASC
+  mimetype_DESC
+  encoding_ASC
+  encoding_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type UploadPreviousValues {
+  id: ID!
+  hasBeenProcessed: Boolean!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+
+type UploadSubscriptionPayload {
+  mutation: MutationType!
+  node: Upload
+  updatedFields: [String!]
+  previousValues: UploadPreviousValues
+}
+
+input UploadSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UploadSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UploadSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UploadSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UploadWhereInput
+}
+
+input UploadUpdateInput {
+  hasBeenProcessed: Boolean
+  filename: String
+  mimetype: String
+  encoding: String
+}
+
+input UploadWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UploadWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UploadWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UploadWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  hasBeenProcessed: Boolean
+
+  """All values that are not equal to given value."""
+  hasBeenProcessed_not: Boolean
+  filename: String
+
+  """All values that are not equal to given value."""
+  filename_not: String
+
+  """All values that are contained in given list."""
+  filename_in: [String!]
+
+  """All values that are not contained in given list."""
+  filename_not_in: [String!]
+
+  """All values less than the given value."""
+  filename_lt: String
+
+  """All values less than or equal the given value."""
+  filename_lte: String
+
+  """All values greater than the given value."""
+  filename_gt: String
+
+  """All values greater than or equal the given value."""
+  filename_gte: String
+
+  """All values containing the given string."""
+  filename_contains: String
+
+  """All values not containing the given string."""
+  filename_not_contains: String
+
+  """All values starting with the given string."""
+  filename_starts_with: String
+
+  """All values not starting with the given string."""
+  filename_not_starts_with: String
+
+  """All values ending with the given string."""
+  filename_ends_with: String
+
+  """All values not ending with the given string."""
+  filename_not_ends_with: String
+  mimetype: String
+
+  """All values that are not equal to given value."""
+  mimetype_not: String
+
+  """All values that are contained in given list."""
+  mimetype_in: [String!]
+
+  """All values that are not contained in given list."""
+  mimetype_not_in: [String!]
+
+  """All values less than the given value."""
+  mimetype_lt: String
+
+  """All values less than or equal the given value."""
+  mimetype_lte: String
+
+  """All values greater than the given value."""
+  mimetype_gt: String
+
+  """All values greater than or equal the given value."""
+  mimetype_gte: String
+
+  """All values containing the given string."""
+  mimetype_contains: String
+
+  """All values not containing the given string."""
+  mimetype_not_contains: String
+
+  """All values starting with the given string."""
+  mimetype_starts_with: String
+
+  """All values not starting with the given string."""
+  mimetype_not_starts_with: String
+
+  """All values ending with the given string."""
+  mimetype_ends_with: String
+
+  """All values not ending with the given string."""
+  mimetype_not_ends_with: String
+  encoding: String
+
+  """All values that are not equal to given value."""
+  encoding_not: String
+
+  """All values that are contained in given list."""
+  encoding_in: [String!]
+
+  """All values that are not contained in given list."""
+  encoding_not_in: [String!]
+
+  """All values less than the given value."""
+  encoding_lt: String
+
+  """All values less than or equal the given value."""
+  encoding_lte: String
+
+  """All values greater than the given value."""
+  encoding_gt: String
+
+  """All values greater than or equal the given value."""
+  encoding_gte: String
+
+  """All values containing the given string."""
+  encoding_contains: String
+
+  """All values not containing the given string."""
+  encoding_not_contains: String
+
+  """All values starting with the given string."""
+  encoding_starts_with: String
+
+  """All values not starting with the given string."""
+  encoding_not_starts_with: String
+
+  """All values ending with the given string."""
+  encoding_ends_with: String
+
+  """All values not ending with the given string."""
+  encoding_not_ends_with: String
+}
+
+input UploadWhereUniqueInput {
+  id: ID
 }
 
 type User implements Node {

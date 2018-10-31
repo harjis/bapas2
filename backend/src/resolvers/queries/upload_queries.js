@@ -1,11 +1,9 @@
 const { getUserId } = require('../../utils');
 
-const { db } = require('../../file_upload/init');
-
 const UploadQueries = {
-  uploads(parent, args, ctx) {
+  uploads(parent, args, ctx, info) {
     getUserId(ctx);
-    return db.get('uploads').value();
+    return ctx.db.query.uploads({}, info);
   },
 };
 

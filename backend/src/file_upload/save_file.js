@@ -1,30 +1,28 @@
 const { createWriteStream } = require('fs');
-const shortid = require('shortid');
-const { db, getFilePath } = require('./init');
+const { getFilePath } = require('./init');
 
-const saveFileToFilesystem = async ({ stream }) => {
-  const id = shortid.generate();
+const saveFileToFilesystem = async (id, stream) => {
   const path = getFilePath(id);
-
   return new Promise((resolve, reject) =>
     stream
       .pipe(createWriteStream(path))
-      .on('finish', () => resolve({ id, path }))
+      .on('finish', () => resolve())
       .on('error', reject),
   );
 };
 
-const saveFileToDB = file =>
-  db
-    .get('uploads')
-    .push(file)
-    .last()
-    .write();
-
-const saveFile = async upload => {
+const saveFile = async (ctx, info, upload) => {
   const { stream, filename, mimetype, encoding } = await upload;
-  const { id, path } = await saveFileToFilesystem({ stream });
-  return saveFileToDB({ id, filename, mimetype, encoding, path });
+  const file = await ctx.db.mutation.createUpload(
+    {
+      data: {
+        hasBeenProcessed: false, filename, mimetype, encoding
+      }
+    },
+    info
+  );
+  await saveFileToFilesystem(file.id, stream);
+  return { id: file.id, filename, mimetype, encoding }
 };
 
 module.exports = saveFile;
