@@ -38,9 +38,8 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const resetToken = onError(({ graphQLErrors, operation }) => {
+const resetToken = onError(({ graphQLErrors }) => {
   // This is pretty horrible
-  console.log(operation);
   if (graphQLErrors && graphQLErrors.some(error => error.message === 'Not authorized')) {
     logout();
   }
