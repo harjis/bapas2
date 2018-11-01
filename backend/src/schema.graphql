@@ -1,4 +1,5 @@
 # import Account from "./generated/prisma.graphql"
+# import File from "./generated/prisma.graphql"
 # import Payment from "./generated/prisma.graphql"
 # import User from "./generated/prisma.graphql"
 # import PaymentOrderByInput from "./generated/prisma.graphql"
@@ -31,11 +32,3 @@ type AuthPayload {
 }
 
 scalar Upload
-
-type File {
-  id: ID!
-  path: String!
-  filename: String!
-  mimetype: String!
-  encoding: String!
-}

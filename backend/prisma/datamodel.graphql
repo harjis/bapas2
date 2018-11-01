@@ -26,3 +26,11 @@ type Payment {
   usersAccount: Account!
   otherAccount: OtherAccount!
 }
+
+type File {
+  id: ID! @unique
+  hasBeenProcessed: Boolean!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
