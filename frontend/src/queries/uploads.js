@@ -7,7 +7,6 @@ export const ADD_UPLOAD = gql`
       filename
       encoding
       mimetype
-      path
     }
   }
 `;
@@ -22,12 +21,16 @@ export const GET_UPLOADS = gql`
 `;
 export const DELETE_UPLOAD = gql`
   mutation deleteUpload($id: ID!) {
-    deleteUpload(id: $id)
+    deleteUpload(id: $id) {
+      id
+    }
   }
 `;
 
 export const PROCESS_UPLOAD = gql`
   mutation processUpload($id: ID!) {
-    processUpload(id: $id)
+    processUpload(id: $id) {
+      id
+    }
   }
 `;

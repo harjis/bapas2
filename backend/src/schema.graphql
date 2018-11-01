@@ -10,7 +10,7 @@ type Query {
   users: [User!]!
   currentUser: User
   payments(orderBy: PaymentOrderByInput, where: PaymentWhereInput): [Payment!]!
-  uploads: [File]
+  uploads: [File!]!
 }
 
 type Mutation {
@@ -22,8 +22,8 @@ type Mutation {
 
   addUpload (file: Upload!): File!
   multipleUpload (files: [Upload!]!): [File!]!
-  deleteUpload(id: ID!): ID!
-  processUpload(id: ID!): ID
+  deleteUpload(id: ID!): File!
+  processUpload(id: ID!): File
 }
 
 type AuthPayload {

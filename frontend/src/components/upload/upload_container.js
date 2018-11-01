@@ -37,7 +37,7 @@ class UploadContainer extends React.Component {
     this.props
       .deleteUpload({
         variables: { id },
-        update: (cache, { data: { deleteUpload: deletedUploadId } }) => {
+        update: (cache, { data: { deleteUpload: { id: deletedUploadId } } }) => {
           const { uploads } = cache.readQuery({ query: GET_UPLOADS });
           cache.writeQuery({
             query: GET_UPLOADS,
