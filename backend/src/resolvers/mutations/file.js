@@ -5,9 +5,9 @@ const PaymentBatchParser = require('../../parsers/payment_batch_parser');
 const { getUserId } = require('../../utils');
 
 const file = {
-    addUpload: (parent, { file }, ctx) => {
+    addUpload: (parent, { file }, ctx, info) => {
       const userId = getUserId(ctx);
-      return saveFile(file)
+      return saveFile(ctx, info, file)
     },
     multipleUpload: (parent, { files }, ctx) => {
       const userId = getUserId(ctx);
@@ -15,7 +15,7 @@ const file = {
     },
     deleteUpload: (parent, { id }, ctx) => {
       const userId = getUserId(ctx);
-      return deleteFile(id)
+      return deleteFile(id, ctx)
     },
     processUpload: (parent, { id }, ctx, info) => {
       const userId = getUserId(ctx);

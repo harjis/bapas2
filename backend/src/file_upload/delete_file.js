@@ -1,10 +1,9 @@
 const { unlinkSync } = require('fs');
-const { db, getFilePath } = require('./init');
+const { getFilePath } = require('./init');
 
-const deleteFile = async id => {
+const deleteFile = async (id, ctx) => {
   await deleteFileFromFilesystem({ id });
-  deleteFileFromDB({ id });
-  return id;
+  return ctx.db.mutation.deleteFile({ where: { id } })
 };
 
 const deleteFileFromFilesystem = async ({ id }) => {
@@ -15,16 +14,6 @@ const deleteFileFromFilesystem = async ({ id }) => {
   }
 
   return true;
-};
-
-const deleteFileFromDB = id => {
-  const upload = db
-    .get('uploads')
-    .find({ id })
-    .value();
-  db.get('uploads')
-    .remove(upload)
-    .write()
 };
 
 module.exports = deleteFile;
