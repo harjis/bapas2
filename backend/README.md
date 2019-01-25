@@ -11,3 +11,5 @@ prisma deploy
 
 # access database directly
 docker exec -it backend_mysql_1 mysql -u root --host 127.0.0.1 --port 3306 --password=prisma
+
+DELETE FROM Account;DELETE FROM OtherAccount;DELETE FROM Payment;DELETE FROM _RelayId;
