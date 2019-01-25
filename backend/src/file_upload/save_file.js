@@ -13,16 +13,17 @@ const saveFileToFilesystem = async (id, stream) => {
 
 const saveFile = async (ctx, info, upload) => {
   const { stream, filename, mimetype, encoding } = await upload;
+  const hasBeenProcessed = false;
   const file = await ctx.db.mutation.createFile(
     {
       data: {
-        hasBeenProcessed: false, filename, mimetype, encoding
+        hasBeenProcessed, filename, mimetype, encoding
       }
     },
     info
   );
   await saveFileToFilesystem(file.id, stream);
-  return { id: file.id, filename, mimetype, encoding }
+  return { id: file.id, filename, mimetype, encoding, hasBeenProcessed }
 };
 
 module.exports = saveFile;

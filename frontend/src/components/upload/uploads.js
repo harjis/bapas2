@@ -11,7 +11,11 @@ const TableRow = ({ upload, onProcess, onDelete }) => (
   <tr key={upload.filename}>
     <td>{upload.filename}</td>
     <td className={styles.controlButtons}>
-      <Button onClick={() => onProcess(upload.id)}>Process</Button>
+      {upload.hasBeenProcessed ? (
+        <div className={styles.hasBeenProcessed}>Has been processed</div>
+      ) : (
+        <Button onClick={() => onProcess(upload.id)}>Process</Button>
+      )}
     </td>
     <td className={styles.controlButtons}>
       <RemoveIcon onClick={() => onDelete(upload.id)} />

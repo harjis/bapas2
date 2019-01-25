@@ -14,3 +14,7 @@
 .controlButtons {
   text-align: center;
 }
+
+.hasBeenProcessed {
+  color: var(--success);
+}
