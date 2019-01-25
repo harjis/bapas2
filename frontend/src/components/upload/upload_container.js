@@ -37,7 +37,14 @@ class UploadContainer extends React.Component {
     this.props
       .deleteUpload({
         variables: { id },
-        update: (cache, { data: { deleteUpload: { id: deletedUploadId } } }) => {
+        update: (
+          cache,
+          {
+            data: {
+              deleteUpload: { id: deletedUploadId }
+            }
+          }
+        ) => {
           const { uploads } = cache.readQuery({ query: GET_UPLOADS });
           cache.writeQuery({
             query: GET_UPLOADS,
@@ -52,7 +59,25 @@ class UploadContainer extends React.Component {
   handleProcessFile = id => {
     this.props
       .processUpload({
-        variables: { id }
+        variables: { id },
+        update: (
+          cache,
+          {
+            data: {
+              processUpload: { id, hasBeenProcessed }
+            }
+          }
+        ) => {
+          const { uploads } = cache.readQuery({ query: GET_UPLOADS });
+          cache.writeQuery({
+            query: GET_UPLOADS,
+            data: {
+              uploads: uploads.map(upload =>
+                upload.id === id ? { ...upload, hasBeenProcessed } : upload
+              )
+            }
+          });
+        }
       })
       .then(this.handleSuccess)
       .catch(this.handleFailed);

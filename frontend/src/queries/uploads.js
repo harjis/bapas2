@@ -7,6 +7,7 @@ export const ADD_UPLOAD = gql`
       filename
       encoding
       mimetype
+      hasBeenProcessed
     }
   }
 `;
@@ -16,6 +17,7 @@ export const GET_UPLOADS = gql`
     uploads {
       id
       filename
+      hasBeenProcessed
     }
   }
 `;
@@ -31,6 +33,7 @@ export const PROCESS_UPLOAD = gql`
   mutation processUpload($id: ID!) {
     processUpload(id: $id) {
       id
+      hasBeenProcessed
     }
   }
 `;
