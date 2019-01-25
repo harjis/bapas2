@@ -30,7 +30,7 @@ class PaymentBatchParser {
       }
     );
 
-    runInSequence(lines);
+    return runInSequence(lines);
   }
 
   async createOrUseExistingAccount(iban, userId = null) {
