@@ -1,3 +1,9 @@
+type Account {
+    id: ID!
+    name: String
+    iban: String!
+    user: User!
+}
 type AuthPayload {
     token: String!
     user: User!
@@ -8,9 +14,11 @@ type User {
     email: String!
     password: String!
     name: String!
+    accounts: [Account!]!
 }
 
 type Query {
+    accounts: [Account!]!
     currentUser(id: Int): User!
     users: [User!]!
 }

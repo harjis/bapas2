@@ -1,4 +1,4 @@
-import { getManager } from "typeorm";
+import { createQueryBuilder, getManager } from "typeorm";
 
 import { User } from "../../entities/User";
 
@@ -8,8 +8,9 @@ const userQueries = {
     return getManager().findOneOrFail(User, args.id);
   },
   users(_: void, args: void): Promise<User[]> {
-    return getManager().find(User);
-
+    return createQueryBuilder(User)
+      .leftJoinAndSelect("User.accounts", "account")
+      .getMany();
   }
 };
 
