@@ -1,3 +1,9 @@
+type User {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    age: Int!
+}
 type Query {
-    helloWorld: String!
+    users: [User!]!
 }
