@@ -7,17 +7,21 @@ import cors from 'cors';
 import "reflect-metadata";
 
 import schema from './schema';
+import { createConnection } from "typeorm";
 
-const app = express();
-const server = new ApolloServer({
-  schema,
-  validationRules: [ depthLimit(7) ],
-});
-app.use('*', cors());
-app.use(compression());
-server.applyMiddleware({ app, path: '/graphql' });
-const httpServer = createServer(app);
-httpServer.listen(
-  { port: 3000 },
-  (): void => console.log(`\n🚀      GraphQL is now running on http://localhost:3000/graphql`)
-);
+createConnection().then(async connection => {
+  const app = express();
+  const server = new ApolloServer({
+    schema,
+    validationRules: [ depthLimit(7) ],
+  });
+  app.use('*', cors());
+  app.use(compression());
+  server.applyMiddleware({ app, path: '/graphql' });
+  const httpServer = createServer(app);
+  httpServer.listen(
+    { port: 3000 },
+    (): void => console.log(`\n🚀      GraphQL is now running on http://localhost:3000/graphql`)
+  );
+
+}).catch(error => console.log("TypeORM connection error: ", error));
