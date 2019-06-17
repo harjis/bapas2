@@ -1,4 +1,4 @@
-import { createQueryBuilder, getManager } from "typeorm";
+import { createQueryBuilder } from "typeorm";
 
 import { Account } from "../../entities/Account";
 

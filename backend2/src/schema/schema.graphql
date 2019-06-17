@@ -1,3 +1,5 @@
+scalar Date
+
 type Account {
     id: ID!
     name: String
@@ -8,10 +10,24 @@ type AuthPayload {
     token: String!
     user: User!
 }
+
+type OtherAccount {
+    id: ID!
+    name: String!
+    iban: String!
+}
+
+type Payment {
+    id: ID!
+    amount: Float!
+    paymentDate: Date!
+    account: Account!
+    otherAccount: OtherAccount!
+}
+
 type DeleteUserResult {
     count: Int!
 }
-
 type User {
     id: ID!
     email: String!
@@ -23,6 +39,7 @@ type User {
 type Query {
     accounts: [Account!]!
     currentUser(id: Int): User!
+    payments: [Payment!]!
     users: [User!]!
 }
 
