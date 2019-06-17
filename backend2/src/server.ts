@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import depthLimit from 'graphql-depth-limit';
@@ -8,6 +9,8 @@ import "reflect-metadata";
 
 import schema from './schema';
 import { createConnection } from "typeorm";
+
+dotenv.config({ path: '.env' });
 
 createConnection().then(async connection => {
   const app = express();
