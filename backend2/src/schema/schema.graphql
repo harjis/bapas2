@@ -8,6 +8,9 @@ type AuthPayload {
     token: String!
     user: User!
 }
+type DeleteUserResult {
+    count: Int!
+}
 
 type User {
     id: ID!
@@ -25,4 +28,6 @@ type Query {
 
 type Mutation {
     createUser(email: String!, password: String!, name: String!): AuthPayload!
+    updateUser(id: ID!, name: String!): User!
+    deleteUser(id: ID!): DeleteUserResult!
 }
